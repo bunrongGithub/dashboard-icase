@@ -20,8 +20,7 @@ const Colors:React.FC<ColorsProps> = () => {
       } catch (error) {
         console.log(error)
       }
-  },[])  
-  console.log(data)
+  },[])
   return (
     <div>
         {

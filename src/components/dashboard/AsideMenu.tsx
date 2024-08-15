@@ -1,16 +1,20 @@
 // src/components/AsideMenu.tsx
-import { FaCogs, FaMoneyCheckAlt, FaClock, FaArrowCircleRight, FaArrowCircleDown, FaHome, FaUserCog } from "react-icons/fa";
+import { useState } from "react";
+import { FaCogs, FaMoneyCheckAlt, FaClock, FaArrowCircleRight, FaArrowCircleDown, FaHome, FaUserCog, FaArrowRight } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 interface AsideMenuProps {
-  role:string
-  username:string;
+  role: string
+  username: string;
   sidebarOpen: boolean;
   setSidebarOpen: (toggle: boolean) => void;
   toggleSettings: () => void;
   isSettingsOpen: boolean;
 }
 
-const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOpen, toggleSettings, isSettingsOpen ,username,role}) => {
+const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOpen, toggleSettings, isSettingsOpen, username, role }) => {
+  const [active,setActive] = useState(false);
+
   return (
     <aside
       className={`fixed top-0 left-0 w-60 bg-[#12263f] text-white min-h-screen flex flex-col transform ${sidebarOpen ? 'translate-x-0 p-2' : '-translate-x-60'} md:relative md:translate-x-0 transition-transform duration-300`}
@@ -26,7 +30,7 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOp
       </div>
       <nav className="flex-1 mt-6">
         <ul>
-        <h1 className="font-semibold m-auto p-4">{role.toUpperCase()} <span className="font-light"> {username.toUpperCase()}</span> </h1>
+          <h1 className="font-semibold m-auto p-4">{role.toUpperCase()} <span className="font-light"> {username.toUpperCase()}</span> </h1>
 
           <li className="hover:bg-gray-700 transition-colors">
             <a href="#" className="p-4 text-sm font-medium flex items-center">
@@ -54,14 +58,19 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOp
               {isSettingsOpen ? (
                 <>
                   <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
-                    <a href="#" className="flex p-4 text-sm font-medium text-gray-900 items-center">
+                    <NavLink to="status" className="flex p-4 text-sm font-medium text-gray-900 items-center">
                       <FaClock />&nbsp;Status
-                    </a>
+                    </NavLink>
                   </li>
                   <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
                     <a href="#" className="flex items-center p-4 text-sm text-gray-900 font-medium">
                       <FaMoneyCheckAlt /> &nbsp;Payment Status
                     </a>
+                  </li>
+                  <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
+                    <NavLink to="colors" className={`flex items-center p-4 text-sm text-gray-900 font-medium`}>
+                      <FaArrowRight /> &nbsp;Phone Colors
+                    </NavLink>
                   </li>
                 </>
               ) : null}

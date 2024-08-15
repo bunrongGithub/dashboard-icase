@@ -3,15 +3,15 @@
 import axios from "axios";
 import { useAuth } from "../../AuthProvider";
 import { FaHome } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AsideMenu from "./AsideMenu";
-import DashboardTable from "./DashboardTable";
-import AdminForm from "./AdminForm";
+// import DashboardTable from "./DashboardTable";
+// import AdminForm from "./AdminForm";
 
 const verifyUserLogin = async (token: string): Promise<string | undefined> => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/dashboard`, {
+     await axios.get(`${import.meta.env.VITE_API_URL}/api/dashboard`, {
       headers: {
         "x-access-token": token
       }
@@ -54,7 +54,7 @@ export default function Dashboard() {
     }
     checkUser();
   }, [token, navigator]);
-
+if(loading) return <p>Loading...</p>
   return (
     <main className="bg-gray-100 min-h-screen flex">
       {/* Sidebar */}
@@ -90,22 +90,9 @@ export default function Dashboard() {
 
         <div className="p-6">
           {/* Content goes here */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-4">Overview</h3>
-              <p className="text-gray-600">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-4">Statistics</h3>
-              <p className="text-gray-600">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-4">Updates</h3>
-              <p className="text-gray-600">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            <DashboardTable />
-            <AdminForm />
-          </div>
+            <Outlet/>
+            {/* <DashboardTable />
+            <AdminForm /> */}
         </div>
       </div>
     </main>
