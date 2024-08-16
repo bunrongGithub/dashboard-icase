@@ -4,19 +4,18 @@ import axios from "axios";
 import { LoadingSkeleton } from "../../skeleton/TableLoading";
 import { Modal } from "./ModalAdd";
 import { ModalDelete } from "./ModalDelete";
-
+import { ModalEdite } from "./ModalEdite";
 interface ColorsProps {
-  colorId?: number | string;
+  colorId?: number | string | any;
   colorName?: string;
 }
-
 const Colors: React.FC = () => {
   const [data, setData] = useState<ColorsProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<true | false >(false);
   const [selectedColorId, setSelectedColorId] = useState<number | string | undefined>(undefined);
-
+  const [isShowModalEdite,setIsShowModalEdite] = useState<true | false>(false)
   useEffect(() => {
     const fetchColors = async () => {
       try {
@@ -99,7 +98,10 @@ const Colors: React.FC = () => {
                   }}>
                     <FaTrash className="text-red-700 size-4" />
                   </button> &nbsp;&nbsp;
-                  <button className="flex items-center"><FaEdit className="text-blue-600 size-4" /></button>
+                  <button onClick={() => {
+                    setSelectedColorId(color.colorId)
+                    setIsShowModalEdite(!isShowModalEdite)
+                  }} className="flex items-center"><FaEdit className="text-blue-600 size-4" /></button>
                 </td>
               </tr>
             ))
@@ -114,6 +116,14 @@ const Colors: React.FC = () => {
           onDelete={handleDelete}
         />
       )}
+      {
+        isShowModalEdite && (
+          <ModalEdite 
+            selectedaId={selectedColorId}
+            onClose={() => setIsShowModalEdite(false)}
+          />
+        )
+      }
     </section>
   );
 };

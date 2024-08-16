@@ -1,5 +1,3 @@
-// src/components/AsideMenu.tsx
-import { useState } from "react";
 import { FaCogs, FaMoneyCheckAlt, FaClock, FaArrowCircleRight, FaArrowCircleDown, FaHome, FaUserCog, FaArrowRight } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
@@ -13,8 +11,6 @@ interface AsideMenuProps {
 }
 
 const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOpen, toggleSettings, isSettingsOpen, username, role }) => {
-  const [active,setActive] = useState(false);
-
   return (
     <aside
       className={`fixed top-0 left-0 w-60 bg-[#12263f] text-white min-h-screen flex flex-col transform ${sidebarOpen ? 'translate-x-0 p-2' : '-translate-x-60'} md:relative md:translate-x-0 transition-transform duration-300`}
