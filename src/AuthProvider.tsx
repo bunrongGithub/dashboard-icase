@@ -24,7 +24,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 username: data.username,
                 password: data.password,
             })
-            console.log(res);
             if (res.data) {
                 const { token, roleName,username } = res.data;
                 sessionStorage.setItem("token",token);
