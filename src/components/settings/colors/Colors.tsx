@@ -85,7 +85,7 @@ const Colors: React.FC = () => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {loading ? (
-            <LoadingSkeleton number={5} />
+            <LoadingSkeleton number={10} />
           ) : (
             data.map((color, index) => (
               <tr key={index} className="hover:bg-gray-100">

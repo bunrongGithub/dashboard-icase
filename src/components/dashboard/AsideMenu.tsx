@@ -1,4 +1,4 @@
-import { FaCogs, FaMoneyCheckAlt, FaClock, FaArrowCircleRight, FaArrowCircleDown, FaHome, FaUserCog, FaArrowRight } from "react-icons/fa";
+import { FaCogs, FaClock, FaArrowCircleRight, FaArrowCircleDown, FaHome, FaUserCog, FaUserClock, FaPalette } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 interface AsideMenuProps {
@@ -59,13 +59,13 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOp
                     </NavLink>
                   </li>
                   <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
-                    <a href="#" className="flex items-center p-4 text-sm text-gray-900 font-medium">
-                      <FaMoneyCheckAlt /> &nbsp;Payment Status
-                    </a>
+                    <NavLink to="payment-status" className="flex items-center p-4 text-sm text-gray-900 font-medium">
+                      <FaUserClock /> &nbsp;Payment Status
+                    </NavLink>
                   </li>
                   <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
                     <NavLink to="colors" className={`flex items-center p-4 text-sm text-gray-900 font-medium`}>
-                      <FaArrowRight /> &nbsp;Phone Colors
+                      <FaPalette /> &nbsp;Phone Colors
                     </NavLink>
                   </li>
                 </>

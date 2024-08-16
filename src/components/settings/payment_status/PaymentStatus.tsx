@@ -2,19 +2,19 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaCog, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
 import { LoadingSkeleton } from "../../skeleton/TableLoading";
-interface StatusProps {
-    statusName: string;
-    statusId: string | number;
+type PaymentStatus = {
+    psId: string | number;
+    psName: string;
 }
-export const Status: React.FC = () => {
-    const [status, setStatus] = useState<StatusProps[]>([]);
+export const PaymentStatus: React.FC = () => {
+    const [psStatus, setPsStatus] = useState<PaymentStatus[]>([]);
     const [error, setError] = useState<any>();
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchStatus = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/status`);
-                setStatus(response.data);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/payment_status`);
+                setPsStatus(response.data);
             } catch (error) {
                 setError(error);
             } finally {
@@ -34,7 +34,7 @@ export const Status: React.FC = () => {
                 <thead className="bg-[#12263f] text-white">
                     <tr>
                         <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">No</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status Name</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Payment Status Name</th>
                         <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider flex items-center">
                             <FaCog />&nbsp; Action
                         </th>
@@ -45,10 +45,10 @@ export const Status: React.FC = () => {
                     {loading ? (
                         <LoadingSkeleton number={10} />
                     ) : (
-                        status.map(status => (
-                            <tr key={status.statusId} className="hover:bg-gray-100">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{status.statusId}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{status.statusName}</td>
+                        psStatus.map(status => (
+                            <tr key={status.psId} className="hover:bg-gray-100">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{status.psId}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{status.psName}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
                                     <button><FaTrash className="text-red-700 size-4" /></button>
                                     &nbsp;&nbsp;
