@@ -5,7 +5,7 @@ interface LoadingSkeletonProps {
     number: number
 }
 
-export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({ number }: { number: number }) => {
+export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({ number }) => {
     // Skeleton loader for the table rows
     return <>
         {

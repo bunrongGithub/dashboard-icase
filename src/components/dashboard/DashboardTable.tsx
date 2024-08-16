@@ -8,8 +8,8 @@ const DashboardTable = () => {
     ];
   
     return (
-      <div className="overflow-x-auto bg-white shadow-md rounded-lg">
-        <table className="min-w-full divide-y divide-gray-200">
+      <section className="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table className="overflow-x-auto bg-white shadow-md rounded-lg">
           <thead className="bg-[#12263f] text-white">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">ID</th>
@@ -40,7 +40,7 @@ const DashboardTable = () => {
             ))}
           </tbody>
         </table>
-      </div>
+      </section>
     );
   }
   

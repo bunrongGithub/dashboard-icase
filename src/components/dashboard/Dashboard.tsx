@@ -89,10 +89,7 @@ if(loading) return <p>Loading...</p>
         </header>
 
         <div className="p-6">
-          {/* Content goes here */}
             <Outlet/>
-            {/* <DashboardTable />
-            <AdminForm /> */}
         </div>
       </div>
     </main>
