@@ -1,4 +1,5 @@
-import { FaCogs, FaClock, FaArrowCircleRight, FaArrowCircleDown, FaHome, FaUserCog, FaUserClock, FaPalette } from "react-icons/fa";
+import { FaCogs, FaClock, FaArrowCircleRight, FaArrowCircleDown, FaHome, FaUserCog, FaUserClock, FaPalette, FaMobile, FaUser } from "react-icons/fa";
+import { FaMobileScreenButton } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 
 interface AsideMenuProps {
@@ -34,9 +35,14 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOp
             </a>
           </li>
           <li className="hover:bg-gray-700 transition-colors">
-            <a href="#" className="flex items-center p-4 text-sm font-medium">
+            <NavLink to="users" className="flex items-center p-4 text-sm font-medium">
               <FaUserCog />&nbsp;Users
-            </a>
+            </NavLink>
+          </li>
+          <li className="hover:bg-gray-700 transition-colors">
+            <NavLink to="services" className="flex items-center p-4 text-sm font-medium">
+              <FaMobileScreenButton />&nbsp;Phone Services
+            </NavLink>
           </li>
           <li className="relative">
             <button
@@ -54,6 +60,11 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOp
               {isSettingsOpen ? (
                 <>
                   <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
+                    <NavLink to="users-role" className="flex p-4 text-sm font-medium text-gray-900 items-center">
+                      <FaUser />&nbsp;Define User Permision
+                    </NavLink>
+                  </li>
+                  <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
                     <NavLink to="status" className="flex p-4 text-sm font-medium text-gray-900 items-center">
                       <FaClock />&nbsp;Status
                     </NavLink>
@@ -66,6 +77,11 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOp
                   <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
                     <NavLink to="colors" className={`flex items-center p-4 text-sm text-gray-900 font-medium`}>
                       <FaPalette /> &nbsp;Phone Colors
+                    </NavLink>
+                  </li>
+                  <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
+                    <NavLink to="phone-model" className={`flex items-center p-4 text-sm text-gray-900 font-medium`}>
+                      <FaMobile /> &nbsp;Phone Models
                     </NavLink>
                   </li>
                 </>
