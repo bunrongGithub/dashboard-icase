@@ -12,7 +12,7 @@ export const PhoneServices: React.FC = () => {
         <section className="overflow-x-auto bg-white shadow-md rounded-lg">
             <div className="w-full p-2 flex items-center justify-between">
                 <div>
-                    <input type="search" name="" id="" />
+                    <input className="" type="search" name="" id="" />
                 </div>
                 <button className="flex items-center border px-3 py-1 bg-blue-700 text-white rounded-lg">
                     <FaPlusCircle /> Add New

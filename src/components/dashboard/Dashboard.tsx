@@ -5,6 +5,7 @@ import { FaHome } from 'react-icons/fa';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AsideMenu from './AsideMenu';
+import DashboardHeader from './DashboardHeader';
 
 // Axios instance with interceptors for handling token and refresh logic
 const apiClient = axios.create({
@@ -110,25 +111,7 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <div className="flex-1 bg-gray-200">
-        <header className="bg-white shadow-md px-4 py-3 border-b border-gray-300 flex items-center justify-between md:pl-60">
-          <h2 className="text-xl flex items-center font-semibold text-gray-800">
-            <FaHome />&nbsp;Dashboard
-          </h2>
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="bg-gray-100 border border-gray-300 rounded-md px-3 py-1.5 text-sm"
-            />
-          </div>
-          <button
-            className="md:hidden text-gray-800 text-2xl"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-          >
-            &#9776;
-          </button>
-        </header>
-
+       <DashboardHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <div className="p-6">
           <Outlet />
         </div>
