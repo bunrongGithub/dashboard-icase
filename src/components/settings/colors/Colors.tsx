@@ -5,6 +5,8 @@ import { LoadingSkeleton } from "../../skeleton/TableLoading";
 import { Modal } from "./ModalAdd";
 import { ModalDelete } from "./ModalDelete";
 import { ModalEdite } from "./ModalEdite";
+
+const widths = [50, 150, 150];
 interface ColorsProps {
   colorId?: number | string | any;
   colorName?: string;
@@ -88,7 +90,7 @@ const Colors: React.FC = () => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {loading ? (
-            <LoadingSkeleton number={10} />
+            <LoadingSkeleton number={10} widths={widths}/>
           ) : (
             data.map((color, index) => (
               <tr key={index} className="hover:bg-gray-100">

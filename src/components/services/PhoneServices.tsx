@@ -1,18 +1,30 @@
 import { useEffect, useState } from "react";
-import { FaCog, FaEdit, FaPlusCircle, FaTrash, FaPrint, FaFileAlt, FaEye, FaFilter } from "react-icons/fa";
+import { FaCog, FaPlusCircle, FaPrint, FaFileAlt, FaFilter } from "react-icons/fa";
 import { PhoneServicesProps } from "./definition";
 import { fetchData } from "./data";
-import { NavLink } from "react-router-dom";
+import PhoneServiceItems from "./PhoneServiceItems";
+import { LoadingSkeleton } from "../skeleton/TableLoading"
+const widths = [50, 150, 150, 150, 150, 150, 150, 150, 40];
 
 export const PhoneServices: React.FC = () => {
     const [data, setData] = useState<PhoneServicesProps[]>([]);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-
+    const [loading, setIsLoading] = useState(true);
     useEffect(() => {
-        fetchData().then(res => res).then(res => {
-            setData(res);
-        }).catch(er => console.error(er));
+        const fetchDataFormService = async () => {
+            try {
+                setIsLoading(true);
+                await fetchData().then(res => res).then(res => {
+                    setData(res);
+                    setIsLoading(false)
+                }).catch(er => console.error(er));
+            } catch (error) {
+                console.error(error)
+                setIsLoading(true)
+            }
+        }
+        fetchDataFormService();
     }, []);
 
     const handleFilter = () => {
@@ -62,56 +74,59 @@ export const PhoneServices: React.FC = () => {
             </div>
             <div className="max-w-xl">
                 <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-[#12263f] text-white">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-semibold tracking-wider">Phone Number</th>
-                            <th className="px-6 py-3 text-left text-xs font-semibold tracking-wider">Received Date</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Service Duration</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Warranty Period</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Payment Status</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Service Status</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Number of Phones</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Total Price</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Creation Date</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Update Date</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                                <FaCog className="inline" /> Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {data?.map((item, index) => (
-                            <tr key={index}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item?.phoneNumber}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item?.accept_date}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item?.duration}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item?.warrantyperoid}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    <span className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${item?.psName === 'done'
-                                        ? 'bg-green-100 text-green-800'
-                                        : item?.psName?.toLowerCase() === 'pending'
-                                            ? 'bg-red-100 text-red-800'
-                                            : 'bg-yellow-100 text-yellow-800'
-                                        }`}
-                                    >
-                                        {item.psName}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item?.statusFixing}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item?.deviceNumbers}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item?.amount}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item?.created_at}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item?.updated_at}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center space-x-2">
-                                    <button className="text-blue-600"><FaEdit /></button>
-                                    <NavLink to={`../services/view/${item?.repId}`} className="text-blue-600"><FaEye /></NavLink>
-                                    <button className="text-red-700"><FaTrash /></button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
+                    <PhoneServiceTableHead />
+                    {
+                        loading ? (
+                            <tbody>
+                                <LoadingSkeleton number={10} widths={widths} />
+                            </tbody>
+                        ) : (
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {data?.map((item, index) => (
+                                    <PhoneServiceItems key={index}
+                                        deviceNumbers={item.deviceNumbers}
+                                        phoneNumber={item.phoneNumber}
+                                        statusFixing={item.statusFixing}
+                                        duration={item.duration}
+                                        warrantyperoid={item.warrantyperoid}
+                                        psId={item.psId}
+                                        psName={item.psName}
+                                        amount={item.amount}
+                                        accept_date={item.accept_date}
+                                        created_at={item.created_at}
+                                        updated_at={item.updated_at}
+                                        repId={item.repId}
+                                        payment_method_id={item.payment_method_id}
+                                        description={item.description}
+                                    />
+                                ))}
+                            </tbody>
+                        )
+                    }
                 </table>
             </div>
         </section>
     );
 };
+
+const PhoneServiceTableHead: React.FC = () => {
+    return <>
+        <thead className="bg-[#12263f] text-white">
+            <tr>
+                <th className="px-6 py-3 text-left text-xs font-semibold tracking-wider">Phone Number</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold tracking-wider">Received Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Service Duration</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Warranty Period</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Payment Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Service Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Number of Phones</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Total Price</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Creation Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Update Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                    <FaCog className="inline" /> Action
+                </th>
+            </tr>
+        </thead>
+    </>
+}

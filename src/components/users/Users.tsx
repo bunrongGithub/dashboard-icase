@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaCog, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
 import { LoadingSkeleton } from "../skeleton/TableLoading";
+const widths = [50, 150, 150,150,50];
+
 type UserType = {
     id: string | number;
     username: string;
@@ -48,7 +50,7 @@ export const Users: React.FC = () => {
                 <tbody className="bg-white divide-y divide-gray-200">
                     {error && <tr><td colSpan={3} className="text-red-700 text-center">{error.message}</td></tr>}
                     {loading ? (
-                        <LoadingSkeleton number={10} />
+                        <LoadingSkeleton number={10} widths={widths} />
                     ) : (
                         users.map((user ,index)=> (
                             <tr key={index} className="hover:bg-gray-100">
