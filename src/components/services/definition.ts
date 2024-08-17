@@ -14,3 +14,13 @@ export interface PhoneServicesProps {
     updated_at: string | null;
     warrantyperoid: string | null
 }
+export interface ViewPhoneServiceProps{
+    repair?:PhoneServicesProps
+    repairId:number|null;
+    repaireItem:PhoneServicesItemProps;
+    statusFixed:string;
+    total:string | number;
+}
+export interface PhoneServicesItemProps{
+
+}

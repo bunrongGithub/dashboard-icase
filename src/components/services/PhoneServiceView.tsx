@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa";
+import { PhoneServicesItemProps, PhoneServicesProps } from "./definition";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const PhoneServiceView: React.FC = () => {
-    // Mock data for sub-table
+    const [itemDetails,setItemDetails] = useState<PhoneServicesProps>();
+    const [phoneItems,setPhoneItems] = useState<PhoneServicesItemProps>();
+    const {id} = useParams();
+    useEffect(() => {
+        const getItemsDetailById = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/service/${id}`)
+                if(response.status === 200)
+                    console.log(response.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        getItemsDetailById();
+    },[])
     const subTableData = [
         { detail: 'Part Replacement', cost: '$50', date: '2024-08-01' },
         { detail: 'Labor Charge', cost: '$30', date: '2024-08-02' },
-        // Add more rows as needed
     ];
 
     return (
