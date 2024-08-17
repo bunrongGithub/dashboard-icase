@@ -13,7 +13,6 @@ import { PhoneServices } from "./components/services/PhoneServices"
 import PhoneServiceView from "./components/services/PhoneServiceView"
 import { PaymentMethod } from "./components/settings/payment_method/PaymentMethod"
 import { PhoneServiceUpdate } from "./components/services/PhoneSeviceUpdate"
-
 export const App: React.FC = () => {
   return (
     <Router>

@@ -21,7 +21,7 @@ export interface ViewPhoneServiceProps{
     statusFixed?:string|null;
     total?:string | number|null;
 }
-type StringOrNull = string| null;
+type StringOrNull = string;
 type numberOrNull = number | null;
 export interface PhoneServicesItemProps{
     colorId?:numberOrNull;

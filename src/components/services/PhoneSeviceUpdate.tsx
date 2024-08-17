@@ -10,7 +10,7 @@ export const PhoneServiceUpdate: React.FC = () => {
     const [itemDetails, setItemDetails] = useState<ViewPhoneServiceProps>();
     const [phoneItems, setPhoneItems] = useState<PhoneServicesItemProps[]>([]);
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethodProps[]>([]);
-    const [paymentStatus,setPaymentStatus] = useState<PaymentStatusProps[]>([])
+    const [paymentStatus, setPaymentStatus] = useState<PaymentStatusProps[]>([])
     const { id } = useParams();
     useEffect(() => {
         const getItemsDetailById = async () => {
@@ -60,7 +60,7 @@ export const PhoneServiceUpdate: React.FC = () => {
 
         setItemDetails(prev => ({
             ...prev
-                , [keyprops]: value
+            , [keyprops]: value
         }))
     }
     return (
@@ -174,7 +174,7 @@ export const PhoneServiceUpdate: React.FC = () => {
                                     id="deviceNumbers"
                                     type="text"
                                     onChange={handleItemDetailChange('deviceNumbers')}
-                                    value={`${itemDetails?.repair?.deviceNumbers ||''}`}
+                                    value={`${itemDetails?.repair?.deviceNumbers || ''}`}
                                     className="mt-1 p-2 border border-gray-300 rounded-md text-green-800"
                                     style={{ letterSpacing: "1.5px" }}
                                 />
@@ -192,13 +192,6 @@ export const PhoneServiceUpdate: React.FC = () => {
                             </div>
                         </section>
                     </div>
-                    {/* <!-- First Row --> */}
-
-                    {/* <!-- Second Row --> */}
-
-                    {/* <!-- Third Row --> */}
-
-                    {/* <!-- Fourth Row --> */}
                     <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 p-4 border border-gray-200 rounded-lg">
                         <div className="flex flex-col">
                             <label htmlFor="description" className="font-medium text-gray-800">Description:</label>
@@ -238,47 +231,65 @@ export const PhoneServiceUpdate: React.FC = () => {
                 <article className="mb-6">
                     <h4 className="text-xl font-semibold text-gray-900 mb-4">{itemDetails?.repair?.deviceNumbers} Number of Phones Details</h4>
                     <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-[#12263f] text-slate-100">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Model</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Phone Color</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Password</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Problem</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Responsible</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Price</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status Paid</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status Fixed</th>
-                            </tr>
-                        </thead>
+                        <TablePhoneItemHead />
                         <tbody className="bg-white divide-y divide-gray-200">
                             {phoneItems.map((phone, index) => (
                                 <tr key={index}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.moName}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.colorName}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.password}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.problem}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.techName}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.price}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <span className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${phone?.statusName?.toLocaleLowerCase() === 'done'
-                                            ? 'bg-green-100 text-green-800'
-                                            : phone.statusName?.toLowerCase() === 'pending'
-                                                ? 'bg-red-100 text-red-800'
-                                                : 'bg-yellow-100 text-yellow-800'
-                                            }`}
-                                        >
-
-                                            {phone.statusName}
-                                        </span>
+                                        <input
+                                            type="text"
+                                            value={phone.moName}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <span className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${phone?.psName?.toLocaleLowerCase() === 'done' ?
-                                            'bg-green-100 text-green-800' : phone?.psName?.toLocaleLowerCase() === "pending" || phone?.psName?.toLocaleLowerCase() === "non" ?
-                                                "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"
-                                            }`}>
-
-                                            {phone.psName}
-                                        </span>
+                                        <input
+                                            type="text"
+                                            value={phone.colorName}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <input
+                                            type="text"
+                                            value={phone.password}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <input
+                                            type="text"
+                                            value={phone.problem}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <input
+                                            type="text"
+                                            value={phone.techName}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <input
+                                            type="text"
+                                            value={phone.price}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <input
+                                            type="text"
+                                            value={phone.statusName}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <input
+                                            type="text"
+                                            value={phone.psName}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
                                     </td>
                                 </tr>
                             ))}
@@ -293,4 +304,29 @@ export const PhoneServiceUpdate: React.FC = () => {
             </article>
         </main>
     );
+}
+
+
+const TablePhoneItemHead: React.FC = () => {
+    const tableHead = [
+        { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Model" },
+        { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Phone Color" },
+        { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Password" },
+        { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Problem" },
+        { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Responsible" },
+        { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Price" },
+        { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Status Paid" },
+        { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Status Fixed" }
+    ]
+    return <>
+        <thead className="bg-[#12263f] text-slate-100">
+            <tr>
+                {tableHead.map((th, index) => (
+                    <th key={index} className={th.cssClass}>
+                        {th.name}
+                    </th>
+                ))}
+            </tr>
+        </thead>
+    </>
 }
