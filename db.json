@@ -1,0 +1,17 @@
+{
+  "phoneServices": [
+    {
+      "id": "2",
+      "phoneNumber": "0987654321",
+      "receivedDate": "2024-02-15",
+      "serviceDuration": "6 months",
+      "warrantyPeriod": "3 months",
+      "paymentStatus": "Unpaid",
+      "serviceStatus": "Pending",
+      "numberOfPhones": 2,
+      "totalPrice": 200,
+      "creationDate": "2024-02-01",
+      "updateDate": "2024-02-03"
+    }
+  ]
+}
