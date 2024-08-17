@@ -20,6 +20,8 @@ const LoginForm: React.FC = () => {
                 setError(`Status 404 ${error?.response?.data?.message}` )
             }else if(error?.response?.status === 500){
                 setError("Status 500 Internal Server error!");
+            }else if(error?.response?.status === 403){
+                setError(error?.response?.data)
             }
             setIsLogin(false)
         }

@@ -61,7 +61,7 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOp
                 <>
                   <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
                     <NavLink to="users-role" className="flex p-4 text-sm font-medium text-gray-900 items-center">
-                      <FaUser />&nbsp;Define User Permision
+                      <FaUser />&nbsp;User Permision
                     </NavLink>
                   </li>
                   <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
