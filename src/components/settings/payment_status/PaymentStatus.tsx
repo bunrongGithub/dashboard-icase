@@ -2,14 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaCog, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
 import { LoadingSkeleton } from "../../skeleton/TableLoading";
+import { PaymentStatusProps } from "./definition";
 const widths = [50, 150, 150];
-
-type PaymentStatus = {
-    psId: string | number;
-    psName: string;
-}
 export const PaymentStatus: React.FC = () => {
-    const [psStatus, setPsStatus] = useState<PaymentStatus[]>([]);
+    const [psStatus, setPsStatus] = useState<PaymentStatusProps[]>([]);
     const [error, setError] = useState<any>();
     const [loading, setLoading] = useState(true);
     useEffect(() => {

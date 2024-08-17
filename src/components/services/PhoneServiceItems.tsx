@@ -34,7 +34,7 @@ const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{created_at}</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{updated_at}</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center space-x-2">
-                <button className="text-blue-600"><FaEdit /></button>
+                <NavLink to={`../services/update/${repId}`} className="text-blue-600"><FaEdit /></NavLink>
                 <NavLink to={`../services/view/${repId}`} className="text-blue-600"><FaEye /></NavLink>
                 <button className="text-red-700"><FaTrash /></button>
             </td>
