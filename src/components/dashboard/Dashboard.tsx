@@ -1,7 +1,6 @@
 // src/pages/Dashboard.tsx
 import axios from 'axios';
 import { useAuth } from '../../AuthProvider';
-import { FaHome } from 'react-icons/fa';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AsideMenu from './AsideMenu';
@@ -38,7 +37,7 @@ apiClient.interceptors.response.use(
           const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/refresh-token`, {}, { withCredentials: true });
           const newToken = response.data.token;
           console.log(response.data);
-          
+
           apiClient.defaults.headers['x-access-token'] = newToken;
 
           // Retry original request
@@ -111,7 +110,7 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <div className="flex-1 bg-gray-200">
-       <DashboardHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <DashboardHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <div className="p-6">
           <Outlet />
         </div>

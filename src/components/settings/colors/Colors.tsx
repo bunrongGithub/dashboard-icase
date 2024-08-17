@@ -68,10 +68,13 @@ const Colors: React.FC = () => {
           onClose={handleModalToggle}
           onSave={handleSave} />
       )}
-      <div className="w-full p-2 flex items-center justify-end">
-        <button onClick={handleModalToggle} className="flex items-center border px-3 py-1 bg-blue-700 text-white rounded-lg">
+      <div className="w-full p-4 flex items-center justify-end bg-gray-50 border-b border-gray-500">
+        <div className="space-x-4">
+
+        <button onClick={handleModalToggle} className="bg-blue-700 flex items-center text-white px-3 py-1.5 rounded-lg">
           <FaPlusCircle /> Add New
         </button>
+        </div>
       </div>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-[#12263f] text-white">
