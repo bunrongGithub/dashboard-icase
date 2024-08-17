@@ -11,6 +11,7 @@ import { UserRole } from "./components/settings/user_roles/UserRole"
 import { Users } from "./components/users/Users"
 import { PhoneServices } from "./components/services/PhoneServices"
 import PhoneServiceView from "./components/services/PhoneServiceView"
+import { PaymentMethod } from "./components/settings/payment_method/PaymentMethod"
 
 export const App: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ export const App: React.FC = () => {
            <Route path="colors" element={<Colors/>}/>
            <Route path="status" element={<Status/>}/>
            <Route path="payment-status" element={<PaymentStatus/>}/>
+           <Route path="payment-method" element={<PaymentMethod/>}/>
            <Route path="phone-model" element={<PhoneModel/>}/>
            <Route path="users-role" element={<UserRole/>}/>
            <Route path="users" element={<Users/>}/>

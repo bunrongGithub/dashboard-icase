@@ -1,4 +1,4 @@
-import { FaCogs, FaClock, FaArrowCircleRight, FaArrowCircleDown, FaHome, FaUserCog, FaUserClock, FaPalette, FaMobile, FaUser } from "react-icons/fa";
+import { FaCogs, FaClock, FaArrowCircleRight, FaArrowCircleDown, FaHome, FaUserCog, FaUserClock, FaPalette, FaMobile, FaUser, FaMoneyBill } from "react-icons/fa";
 import { FaMobileScreenButton } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 
@@ -72,6 +72,11 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOp
                   <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
                     <NavLink to="payment-status" className="flex items-center p-4 text-sm text-gray-900 font-medium">
                       <FaUserClock /> &nbsp;Payment Status
+                    </NavLink>
+                  </li>
+                  <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
+                    <NavLink to="payment-method" className="flex items-center p-4 text-sm text-gray-900 font-medium">
+                      <FaMoneyBill /> &nbsp;Payment Method
                     </NavLink>
                   </li>
                   <li className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500">
