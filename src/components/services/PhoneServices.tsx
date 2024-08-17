@@ -4,7 +4,7 @@ import { PhoneServicesProps } from "./definition";
 import { fetchData } from "./data";
 import PhoneServiceItems from "./PhoneServiceItems";
 import { LoadingSkeleton } from "../skeleton/TableLoading"
-const widths = [50, 150, 150, 150, 150, 150, 150, 150, 40];
+const widths = [50, 150, 150, 150, 150, 150, 150, 150, 150,40];
 
 export const PhoneServices: React.FC = () => {
     const [data, setData] = useState<PhoneServicesProps[]>([]);
