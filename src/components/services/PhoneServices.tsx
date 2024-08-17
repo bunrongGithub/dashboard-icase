@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaCog, FaEdit, FaPlusCircle, FaTrash, FaPrint, FaFileAlt, FaEye, FaFilter } from "react-icons/fa";
 import { PhoneServicesProps } from "./definition";
 import { fetchData } from "./data";
+import { NavLink } from "react-router-dom";
 
 export const PhoneServices: React.FC = () => {
     const [data, setData] = useState<PhoneServicesProps[]>([]);
@@ -103,7 +104,7 @@ export const PhoneServices: React.FC = () => {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item?.updated_at}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center space-x-2">
                                     <button className="text-blue-600"><FaEdit /></button>
-                                    <button className="text-blue-600"><FaEye /></button>
+                                    <NavLink to={`../services/view/${item?.repId}`} className="text-blue-600"><FaEye /></NavLink>
                                     <button className="text-red-700"><FaTrash /></button>
                                 </td>
                             </tr>

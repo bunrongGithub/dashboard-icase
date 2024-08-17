@@ -10,6 +10,7 @@ import { PhoneModel } from "./components/settings/phone_model/PhoneModel"
 import { UserRole } from "./components/settings/user_roles/UserRole"
 import { Users } from "./components/users/Users"
 import { PhoneServices } from "./components/services/PhoneServices"
+import PhoneServiceView from "./components/services/PhoneServiceView"
 
 export const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ export const App: React.FC = () => {
            <Route path="users-role" element={<UserRole/>}/>
            <Route path="users" element={<Users/>}/>
            <Route path="services" element={<PhoneServices/>}/>
+           <Route path="services/view/:id" element={<PhoneServiceView/>}/>
           </Route>
         </Routes>
       </AuthProvider>
