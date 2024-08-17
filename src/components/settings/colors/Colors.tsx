@@ -5,12 +5,10 @@ import { LoadingSkeleton } from "../../skeleton/TableLoading";
 import { Modal } from "./ModalAdd";
 import { ModalDelete } from "./ModalDelete";
 import { ModalEdite } from "./ModalEdite";
+import { ColorsProps } from "./definition";
 
 const widths = [50, 150, 150];
-interface ColorsProps {
-  colorId?: number | string | any;
-  colorName?: string;
-}
+
 const Colors: React.FC = () => {
   const [data, setData] = useState<ColorsProps[]>([]);
   const [loading, setLoading] = useState(true);

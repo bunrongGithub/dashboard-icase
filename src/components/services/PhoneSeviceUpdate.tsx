@@ -1,16 +1,18 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaRegSave, FaUndoAlt } from "react-icons/fa";
 import { PhoneServicesItemProps, PhoneServicesProps, ViewPhoneServiceProps } from "./definition";
 import { NavLink, useParams } from "react-router-dom";
 import axios from "axios";
 import { PaymentMethodProps } from "../settings/payment_method/definition";
 import { PaymentStatusProps } from "../settings/payment_status/definition";
+import { ColorsProps } from "../settings/colors/definition";
 
 export const PhoneServiceUpdate: React.FC = () => {
     const [itemDetails, setItemDetails] = useState<ViewPhoneServiceProps>();
     const [phoneItems, setPhoneItems] = useState<PhoneServicesItemProps[]>([]);
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethodProps[]>([]);
-    const [paymentStatus, setPaymentStatus] = useState<PaymentStatusProps[]>([])
+    const [paymentStatus, setPaymentStatus] = useState<PaymentStatusProps[]>([]);
+    const [colors, setColors] = useState<ColorsProps[]>([]);
     const { id } = useParams();
     useEffect(() => {
         const getItemsDetailById = async () => {
@@ -21,6 +23,16 @@ export const PhoneServiceUpdate: React.FC = () => {
                 setItemDetails(response.data)
             } catch (error) {
                 console.error(error)
+            }
+        }
+        const getColors = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/colors`);
+                if (response.status === 200) {
+                    setColors(response.data);
+                }
+            } catch (error: any) {
+                console.error(error);
             }
         }
         const getPaymentMethod = async () => {
@@ -40,6 +52,7 @@ export const PhoneServiceUpdate: React.FC = () => {
             }
         }
         getItemsDetailById();
+        getColors();
         getPaymentStatus();
         getPaymentMethod();
     }, [])
@@ -63,6 +76,21 @@ export const PhoneServiceUpdate: React.FC = () => {
             , [keyprops]: value
         }))
     }
+    type ItemId = number | string | undefined | null
+    const handlePhoneItemChange = (itemId: ItemId, keyprop: keyof PhoneServicesItemProps) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { value } = event.target;
+        setPhoneItems((prev) => (
+            prev.map((phone) => (
+                itemId === phone.itemId ? {
+                    ...phone, [keyprop]: value
+                } : phone
+            ))
+        ))
+    }
+    const handleSaveChange = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+    }
     return (
         <main className=" flex items-center justify-center">
             <article className="bg-white rounded-lg shadow-lg w-full p-6">
@@ -72,7 +100,7 @@ export const PhoneServiceUpdate: React.FC = () => {
                         <FaEye className="text-[#12263f]" size={20} />
                     </button>
                 </header>
-                <form>
+                <form onSubmit={handleSaveChange}>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 p-4 border border-gray-200 rounded-lg">
                         <section className="flex flex-col space-y-4">
                             <div className="flex flex-col">
@@ -225,82 +253,105 @@ export const PhoneServiceUpdate: React.FC = () => {
                             />
                         </div>
                     </section>
+                    {/* Sub-Table for additional data */}
+                    <article className="mb-6">
+                        <h4 className="text-xl font-semibold text-gray-900 mb-4">{itemDetails?.repair?.deviceNumbers} Number of Phones Details</h4>
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <TablePhoneItemHead />
+                            <tbody className="bg-slate-50 shadow-sm">
+                                {phoneItems.map((phone, index) => (
+                                    <tr key={index}>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <input
+                                                type="text"
+                                                onChange={handlePhoneItemChange(phone.itemId, 'moName')}
+                                                value={phone.moName}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <select
+                                                onChange={handlePhoneItemChange(phone.itemId ,'colorName')}
+                                                value={phone.colorName || ''}
+                                                className={`mt-1.5 p-[9px] border border-gray-300 rounded-md`}
+                                            >
+                                                <optgroup label="---Select one---">
+                                                    {colors?.map((color, index) => (
+                                                        phone?.colorId === color.colorId ?
+                                                            <option key={index} value={color.colorName}>{color.colorName}</option> : <option key={index} value={color.colorName}>{color.colorName}</option>
+                                                    ))}
+                                                </optgroup>
+                                            </select>
+                                            {/* <input
+                                                type="text"
+                                                onChange={handlePhoneItemChange(phone.itemId , 'colorName')}
+                                                value={phone.colorName}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            /> */}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <input
+                                                type="text"
+                                                onChange={handlePhoneItemChange(phone.itemId, 'password')}
+                                                value={phone.password}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <input
+                                                type="text"
+                                                onChange={handlePhoneItemChange(phone.itemId, 'problem')}
+                                                value={phone.problem}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <input
+                                                type="text"
+                                                onChange={handlePhoneItemChange(phone.itemId, 'techName')}
+                                                value={phone.techName}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <input
+                                                type="text"
+                                                onChange={handlePhoneItemChange(phone.itemId, 'price')}
+                                                value={phone.price}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <input
+                                                type="text"
+                                                onChange={handlePhoneItemChange(phone.itemId, 'statusName')}
+                                                value={phone.statusName}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <input
+                                                type="text"
+                                                onChange={handlePhoneItemChange(phone.itemId, 'psName')}
+                                                value={phone.psName}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </article>
+                    <div className="flex justify-end mt-6 pt-4">
+                        <NavLink to="../services" className="mx-5 bg-red-600 flex items-center hover:bg-red-700 text-white px-4 py-2 rounded-md">
+                            <FaUndoAlt /> Back
+                        </NavLink>
+                        <button type="submit" className="bg-blue-700 flex items-center text-white px-4 py-1.5 rounded-lg hover:bg-blue-800 transition">
+                            <FaRegSave />&nbsp; Save Change
+                        </button>
+                    </div>
                 </form>
 
-                {/* Sub-Table for additional data */}
-                <article className="mb-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-4">{itemDetails?.repair?.deviceNumbers} Number of Phones Details</h4>
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <TablePhoneItemHead />
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {phoneItems.map((phone, index) => (
-                                <tr key={index}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <input
-                                            type="text"
-                                            value={phone.moName}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <input
-                                            type="text"
-                                            value={phone.colorName}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <input
-                                            type="text"
-                                            value={phone.password}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <input
-                                            type="text"
-                                            value={phone.problem}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <input
-                                            type="text"
-                                            value={phone.techName}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <input
-                                            type="text"
-                                            value={phone.price}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <input
-                                            type="text"
-                                            value={phone.statusName}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <input
-                                            type="text"
-                                            value={phone.psName}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </article>
-                <div className="flex justify-end mt-6 border-t border-gray-200 pt-4">
-                    <NavLink to="../services" className="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition">
-                        Back
-                    </NavLink>
-                </div>
             </article>
         </main>
     );
