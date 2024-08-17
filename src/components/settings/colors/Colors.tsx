@@ -13,9 +13,9 @@ const Colors: React.FC = () => {
   const [data, setData] = useState<ColorsProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState<true | false >(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<true | false>(false);
   const [selectedColorId, setSelectedColorId] = useState<number | string | undefined>(undefined);
-  const [isShowModalEdite,setIsShowModalEdite] = useState<true | false>(false)
+  const [isShowModalEdite, setIsShowModalEdite] = useState<true | false>(false)
   useEffect(() => {
     const fetchColors = async () => {
       try {
@@ -71,9 +71,9 @@ const Colors: React.FC = () => {
       <div className="w-full p-4 flex items-center justify-end bg-gray-50 border-b border-gray-500">
         <div className="space-x-4">
 
-        <button onClick={handleModalToggle} className="bg-blue-700 flex items-center text-white px-3 py-1.5 rounded-lg">
-          <FaPlusCircle /> Add New
-        </button>
+          <button onClick={handleModalToggle} className="bg-blue-700 flex items-center text-white px-3 py-1.5 rounded-lg">
+            <FaPlusCircle /> Add New
+          </button>
         </div>
       </div>
       <table className="min-w-full divide-y divide-gray-200">
@@ -95,7 +95,7 @@ const Colors: React.FC = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{color.colorName}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
-                <button onClick={() => {
+                  <button onClick={() => {
                     setSelectedColorId(color.colorId);
                     setShowDeleteModal(true);
                   }}>
@@ -121,7 +121,7 @@ const Colors: React.FC = () => {
       )}
       {
         isShowModalEdite && (
-          <ModalEdite 
+          <ModalEdite
             selectedaId={selectedColorId}
             onClose={() => setIsShowModalEdite(false)}
           />
