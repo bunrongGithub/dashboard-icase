@@ -14,8 +14,6 @@ export const Teachnicain: React.FC = () => {
         const fetchTeachnician = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/teachnician`);
-                console.log(response.data);
-                
                 setTeachnician(response.data);
             } catch (error) {
                 console.log(error);

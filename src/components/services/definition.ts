@@ -22,7 +22,7 @@ export interface ViewPhoneServiceProps{
     total?:string | number|null;
 }
 type StringOrNull = string;
-type numberOrNull = number | null;
+type numberOrNull = number;
 export interface PhoneServicesItemProps{
     colorId?:numberOrNull;
     colorName?:StringOrNull;
@@ -40,6 +40,6 @@ export interface PhoneServicesItemProps{
     statusId?:numberOrNull;
     techId?:numberOrNull;
     techName?:StringOrNull;
-    psId?:numberOrNull;
-    psName:StringOrNull;
+    psId?:number | undefined;
+    psName?:StringOrNull;
 }

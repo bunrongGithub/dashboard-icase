@@ -2,12 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaCog, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
 import { LoadingSkeleton } from "../../skeleton/TableLoading";
+import StatusProps from "./definition";
 const widths = [50, 150, 150];
 
-interface StatusProps {
-    statusName: string;
-    statusId: string | number;
-}
+
 export const Status: React.FC = () => {
     const [status, setStatus] = useState<StatusProps[]>([]);
     const [error, setError] = useState<any>();
