@@ -1,4 +1,4 @@
 export interface ColorsProps {
-    colorId?: number | string | any;
+    colorId?: number;
     colorName?: string;
   }

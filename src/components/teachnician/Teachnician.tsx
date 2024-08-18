@@ -1,27 +1,28 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaCog, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
-import { LoadingSkeleton } from "../../skeleton/TableLoading";
-import { PhoneModelType } from "./definition";
+import { LoadingSkeleton } from "../skeleton/TableLoading";
+import TeachnicianProps from "./definition"
 const widths = [50, 150, 150];
 
 
-export const PhoneModel: React.FC = () => {
-    const [phoneModel, setPhoneModel] = useState<PhoneModelType[]>([]);
+export const PaymentMethod: React.FC = () => {
+    const [teachnician, setTeachnician] = useState<TeachnicianProps[]>([]);
     const [error, setError] = useState<any>();
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        const fetchModels = async () => {
+        const fetchTeachnician = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/models`);
-                setPhoneModel(response.data);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/teachnician`);
+                setTeachnician(response.data);
             } catch (error) {
+                console.log(error);
                 setError(error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchModels();
+        fetchTeachnician();
     }, []);
     return (
         <section className="overflow-x-auto bg-white shadow-md rounded-lg">
@@ -34,7 +35,7 @@ export const PhoneModel: React.FC = () => {
                 <thead className="bg-[#12263f] text-white">
                     <tr>
                         <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">No</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Model Name</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Teachnicain Name</th>
                         <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider flex items-center">
                             <FaCog />&nbsp; Action
                         </th>
@@ -45,10 +46,10 @@ export const PhoneModel: React.FC = () => {
                     {loading ? (
                         <LoadingSkeleton number={10} widths={widths} />
                     ) : (
-                        phoneModel.map(phone => (
-                            <tr key={phone.moId} className="hover:bg-gray-100">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{phone.moId}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{phone.moName}</td>
+                        teachnician.map((teach,index) => (
+                            <tr key={index} className="hover:bg-gray-100">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.techId}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.techName}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
                                     <button><FaTrash className="text-red-700 size-4" /></button>
                                     &nbsp;&nbsp;

@@ -1,17 +1,18 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { FaEye, FaRegSave, FaUndoAlt } from "react-icons/fa";
+import { FaEye, FaRegSave, FaTrash, FaUndoAlt } from "react-icons/fa";
 import { PhoneServicesItemProps, PhoneServicesProps, ViewPhoneServiceProps } from "./definition";
 import { NavLink, useParams } from "react-router-dom";
 import axios from "axios";
 import { PaymentMethodProps } from "../settings/payment_method/definition";
 import { PaymentStatusProps } from "../settings/payment_status/definition";
 import { ColorsProps } from "../settings/colors/definition";
-
+import { PhoneModelType } from "../settings/phone_model/definition";
 export const PhoneServiceUpdate: React.FC = () => {
     const [itemDetails, setItemDetails] = useState<ViewPhoneServiceProps>();
     const [phoneItems, setPhoneItems] = useState<PhoneServicesItemProps[]>([]);
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethodProps[]>([]);
     const [paymentStatus, setPaymentStatus] = useState<PaymentStatusProps[]>([]);
+    const [models,setModels] = useState<PhoneModelType[]>([]);
     const [colors, setColors] = useState<ColorsProps[]>([]);
     const { id } = useParams();
     useEffect(() => {
@@ -23,6 +24,14 @@ export const PhoneServiceUpdate: React.FC = () => {
                 setItemDetails(response.data)
             } catch (error) {
                 console.error(error)
+            }
+        }
+        const getPhoneModels = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/models`);
+                setModels(response.data);
+            } catch (error) {
+               console.log(error)
             }
         }
         const getColors = async () => {
@@ -53,6 +62,7 @@ export const PhoneServiceUpdate: React.FC = () => {
         }
         getItemsDetailById();
         getColors();
+        getPhoneModels();
         getPaymentStatus();
         getPaymentMethod();
     }, [])
@@ -76,12 +86,12 @@ export const PhoneServiceUpdate: React.FC = () => {
             , [keyprops]: value
         }))
     }
-    type ItemId = number | string | undefined | null
-    const handlePhoneItemChange = (itemId: ItemId, keyprop: keyof PhoneServicesItemProps) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    type ItemId = number | string;
+    const handlePhoneItemChange = (itemIndex: ItemId, keyprop: keyof PhoneServicesItemProps) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { value } = event.target;
         setPhoneItems((prev) => (
-            prev.map((phone) => (
-                itemId === phone.itemId ? {
+            prev.map((phone,index) => (
+                itemIndex === index ? {
                     ...phone, [keyprop]: value
                 } : phone
             ))
@@ -89,7 +99,8 @@ export const PhoneServiceUpdate: React.FC = () => {
     }
     const handleSaveChange = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        console.log(itemDetails);
+        console.log(phoneItems)
     }
     return (
         <main className=" flex items-center justify-center">
@@ -262,37 +273,41 @@ export const PhoneServiceUpdate: React.FC = () => {
                                 {phoneItems.map((phone, index) => (
                                     <tr key={index}>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            <input
-                                                type="text"
-                                                onChange={handlePhoneItemChange(phone.itemId, 'moName')}
-                                                value={phone.moName}
-                                                className="w-full p-2 border border-gray-300 rounded-md"
-                                            />
+                                            <select 
+                                                onChange={handlePhoneItemChange(index,'moId')} 
+                                                value={phone.moId||''} name="" id="" className={`mt-1.5 p-[9px] border border-gray-300 rounded-md`}>
+                                                <optgroup className="bg-white" label="---Select one---">
+                                                    {
+                                                        models?.map((model,index) => (
+                                                            phone?.moId === model.moId ? 
+                                                                <option key={index} value={model.moId}>{model.moName}</option>
+                                                                    :
+                                                                <option key={index} value={model.moId}>{model.moName}</option>
+                                                        ))
+                                                    }
+                                                </optgroup>
+                                            </select>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <select
-                                                onChange={handlePhoneItemChange(phone.itemId ,'colorName')}
-                                                value={phone.colorName || ''}
+                                                onChange={handlePhoneItemChange(index ,'colorId')}
+                                                value={phone.colorId || ''}
                                                 className={`mt-1.5 p-[9px] border border-gray-300 rounded-md`}
                                             >
                                                 <optgroup label="---Select one---">
                                                     {colors?.map((color, index) => (
                                                         phone?.colorId === color.colorId ?
-                                                            <option key={index} value={color.colorName}>{color.colorName}</option> : <option key={index} value={color.colorName}>{color.colorName}</option>
+                                                            <option key={index} value={color.colorId}>{color.colorName}</option>
+                                                                 : 
+                                                            <option key={index} value={color.colorId}>{color.colorName}</option>
                                                     ))}
                                                 </optgroup>
                                             </select>
-                                            {/* <input
-                                                type="text"
-                                                onChange={handlePhoneItemChange(phone.itemId , 'colorName')}
-                                                value={phone.colorName}
-                                                className="w-full p-2 border border-gray-300 rounded-md"
-                                            /> */}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <input
                                                 type="text"
-                                                onChange={handlePhoneItemChange(phone.itemId, 'password')}
+                                                onChange={handlePhoneItemChange(index, 'password')}
                                                 value={phone.password}
                                                 className="w-full p-2 border border-gray-300 rounded-md"
                                             />
@@ -300,7 +315,7 @@ export const PhoneServiceUpdate: React.FC = () => {
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <input
                                                 type="text"
-                                                onChange={handlePhoneItemChange(phone.itemId, 'problem')}
+                                                onChange={handlePhoneItemChange(index, 'problem')}
                                                 value={phone.problem}
                                                 className="w-full p-2 border border-gray-300 rounded-md"
                                             />
@@ -308,7 +323,7 @@ export const PhoneServiceUpdate: React.FC = () => {
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <input
                                                 type="text"
-                                                onChange={handlePhoneItemChange(phone.itemId, 'techName')}
+                                                onChange={handlePhoneItemChange(index, 'techName')}
                                                 value={phone.techName}
                                                 className="w-full p-2 border border-gray-300 rounded-md"
                                             />
@@ -316,7 +331,7 @@ export const PhoneServiceUpdate: React.FC = () => {
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <input
                                                 type="text"
-                                                onChange={handlePhoneItemChange(phone.itemId, 'price')}
+                                                onChange={handlePhoneItemChange(index, 'price')}
                                                 value={phone.price}
                                                 className="w-full p-2 border border-gray-300 rounded-md"
                                             />
@@ -324,7 +339,7 @@ export const PhoneServiceUpdate: React.FC = () => {
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <input
                                                 type="text"
-                                                onChange={handlePhoneItemChange(phone.itemId, 'statusName')}
+                                                onChange={handlePhoneItemChange(index, 'statusName')}
                                                 value={phone.statusName}
                                                 className="w-full p-2 border border-gray-300 rounded-md"
                                             />
@@ -332,10 +347,13 @@ export const PhoneServiceUpdate: React.FC = () => {
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <input
                                                 type="text"
-                                                onChange={handlePhoneItemChange(phone.itemId, 'psName')}
+                                                onChange={handlePhoneItemChange(index, 'psName')}
                                                 value={phone.psName}
                                                 className="w-full p-2 border border-gray-300 rounded-md"
                                             />
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <button className="text-red-600"><FaTrash className="size-5"/></button>
                                         </td>
                                     </tr>
                                 ))}
@@ -367,7 +385,8 @@ const TablePhoneItemHead: React.FC = () => {
         { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Responsible" },
         { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Price" },
         { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Status Paid" },
-        { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Status Fixed" }
+        { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Status Fixed" },
+        { cssClass: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Action" },
     ]
     return <>
         <thead className="bg-[#12263f] text-slate-100">
