@@ -18,7 +18,7 @@ export const PhoneServiceUpdate: React.FC = () => {
     const [models, setModels] = useState<PhoneModelType[]>([]);
     const [colors, setColors] = useState<ColorsProps[]>([]);
     const [teachnician, setTeachnician] = useState<TeachnicianProps[]>([]);
-    const [loading,setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const { id } = useParams();
     useEffect(() => {
         const getItemsDetailById = async () => {
@@ -128,25 +128,27 @@ export const PhoneServiceUpdate: React.FC = () => {
             problem: '',
             techId: 1,
             price: '',
-            statusId: 1,
+            stausId: 1,
             psId: 1,
+            repId:id
         }
-        setPhoneItems([...phoneItems,newItems])
+        setPhoneItems([...phoneItems, newItems])
     };
 
     const handleSaveChange = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
+        console.log(phoneItems);
+        
         try {
-            const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/service/${id}`,{
-                itemDetails,phoneItems
+            const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/service/${id}`, {
+                itemDetails, phoneItems
             });
-            if(response.status === 200){
-                console.log(response)
-            }
+            console.log(response);
+            
         } catch (error) {
             console.log(error);
-        }finally{
+        } finally {
             setLoading(false)
         }
     }
@@ -160,12 +162,12 @@ export const PhoneServiceUpdate: React.FC = () => {
                     </button>
                 </header>
                 <button
-                                
-                                className="bg-blue-700 flex items-center text-white px-4 py-1.5 rounded-lg hover:bg-blue-800 transition"
-                                onClick={andleAddMoreRow}
-                            >
-                                <FaPlus/>Add More
-                            </button>
+
+                    className="bg-blue-700 flex items-center text-white px-4 py-1.5 rounded-lg hover:bg-blue-800 transition"
+                    onClick={andleAddMoreRow}
+                >
+                    <FaPlus />Add More
+                </button>
                 <form onSubmit={handleSaveChange}>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 p-4 border border-gray-200 rounded-lg">
                         <section className="flex flex-col space-y-4">
@@ -323,8 +325,8 @@ export const PhoneServiceUpdate: React.FC = () => {
                     <article className="mb-6">
                         <div className="flex items-center justify-between ">
                             <h4 className="text-xl font-semibold text-gray-900 mb-4">{itemDetails?.repair?.deviceNumbers} Number of Phones Details</h4>
-                     
-                            </div>
+
+                        </div>
                         <table className="min-w-full divide-y divide-gray-200">
                             <TablePhoneItemHead />
                             <tbody className="bg-slate-50 shadow-sm">
@@ -398,26 +400,30 @@ export const PhoneServiceUpdate: React.FC = () => {
                                             <input
                                                 type="text"
                                                 onChange={handlePhoneItemChange(index, 'price')}
-                                                value={phone.price}
+                                                value={phone.price || ''}
                                                 className="w-full p-2 border border-gray-300 rounded-md"
                                             />
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <select
-                                                onChange={handlePhoneItemChange(index, 'statusId')}
-                                                value={phone.statusId || ''}
+                                                onChange={handlePhoneItemChange(index, 'stausId')}
+                                                value={phone?.stausId || ''}
                                                 className={`mt-1.5 p-[9px] border border-gray-300 rounded-md`}
                                             >
-                                                <optgroup label="---Select one---">
-                                                    {status?.map((status, index) => (
-                                                        phone?.statusId === status.statusId ?
-                                                            <option key={index} value={status.statusId}>{status.statusName}</option>
-                                                            :
-                                                            <option key={index} value={status.statusId}>{status.statusName}</option>
-                                                    ))}
-                                                </optgroup>
+                                                {/* Default option for no selection */}
+                                                <option value="" disabled>
+                                                    ---Select one---
+                                                </option>
+
+                                                {/* Populate options dynamically */}
+                                                {status?.map((statusItem, statusIndex) => (
+                                                    <option key={statusIndex} value={statusItem.statusId}>
+                                                        {statusItem.statusName}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </td>
+
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <select name="" value={phone.psId}
                                                 className={`mt-1.5 p-[9px] border border-gray-300 rounded-md`}
@@ -446,9 +452,9 @@ export const PhoneServiceUpdate: React.FC = () => {
                         <NavLink to="../services" className="mx-5 bg-red-600 flex items-center hover:bg-red-700 text-white px-4 py-2 rounded-md">
                             <FaUndoAlt /> Back
                         </NavLink>
-                        <button type="submit" 
-                            className={`flex items-center text-white px-4 py-1.5 rounded-lg hover:bg-blue-800 transition ${loading ? "bg-blue-400":"bg-blue-700 "}`}>
-                            <FaRegSave />&nbsp; {loading ? "Save..." :"Save Change"}
+                        <button type="submit"
+                            className={`flex items-center text-white px-4 py-1.5 rounded-lg hover:bg-blue-800 transition ${loading ? "bg-blue-400" : "bg-blue-700 "}`}>
+                            <FaRegSave />&nbsp; {loading ? "Save..." : "Save Change"}
                         </button>
                     </div>
                 </form>

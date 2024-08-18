@@ -34,10 +34,11 @@ export interface PhoneServicesItemProps{
     price?:StringOrNull;
     problem?:StringOrNull;
     qyt?:numberOrNull;
-    repId?:numberOrNull;
+    repId?:string|undefined;
     responsible?:StringOrNull;
     statusName?:StringOrNull;
     statusId?:numberOrNull;
+    stausId?:numberOrNull;
     techId?:numberOrNull;
     techName?:StringOrNull;
     psId?:number | undefined;
