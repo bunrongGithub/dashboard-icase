@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCog, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
 import { LoadingSkeleton } from "../skeleton/TableLoading";
 import TeachnicianProps from "./definition"
@@ -34,20 +34,7 @@ export const Teachnicain: React.FC = () => {
                 </button>
             </div>
             <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-[#12263f] text-white">
-                    <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">No</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Teachnicain Name</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Skill</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Responsibility</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Position</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Salary</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Contact</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider flex items-center">
-                            <FaCog />&nbsp; Action
-                        </th>
-                    </tr>
-                </thead>
+                <TableHeading/>
                 <tbody className="bg-white divide-y divide-gray-200">
                     {error && <tr><td colSpan={3} className="text-red-700 text-center">{error.message}</td></tr>}
                     {loading ? (
@@ -61,7 +48,7 @@ export const Teachnicain: React.FC = () => {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.responsible}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.roleName}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.salary}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.contact}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 ">{teach.contact}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
                                     <button><FaTrash className="text-red-700 size-4" /></button>
                                     &nbsp;&nbsp;
@@ -79,3 +66,27 @@ export const Teachnicain: React.FC = () => {
 
 
 
+const TableHeading:React.FC = () => {
+    const tableHeader = [
+        {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'No'},
+        {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Teachnicain Name'},
+        {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Skill'},
+        {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Responsibility'},
+        {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Position'},
+        {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Salary'},
+        {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Contact'},
+        {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase flex items-center tracking-wider',name:'Action', svg:<FaCog />},
+    ]
+    return <thead className="bg-[#12263f] text-white">
+        <tr>
+            {
+                tableHeader.map((item,index) => (
+                    <td key={index} className={item.cssClass}>
+                      {item.svg}  {item.name}
+                    </td>
+                ))
+            }
+        </tr>
+    </thead>
+
+}
