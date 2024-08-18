@@ -13,6 +13,7 @@ import { PhoneServices } from "./components/services/PhoneServices"
 import PhoneServiceView from "./components/services/PhoneServiceView"
 import { PaymentMethod } from "./components/settings/payment_method/PaymentMethod"
 import { PhoneServiceUpdate } from "./components/services/PhoneSeviceUpdate"
+import { Teachnicain } from "./components/teachnician/Teachnician"
 export const App: React.FC = () => {
   return (
     <Router>
@@ -27,6 +28,7 @@ export const App: React.FC = () => {
            <Route path="phone-model" element={<PhoneModel/>}/>
            <Route path="users-role" element={<UserRole/>}/>
            <Route path="users" element={<Users/>}/>
+           <Route path="teachnician" element={<Teachnicain/>}/>
            <Route path="services" element={<PhoneServices/>}/>
            <Route path="services/view/:id" element={<PhoneServiceView/>}/>
            <Route path="services/update/:id" element={<PhoneServiceUpdate/>}/>

@@ -1,5 +1,5 @@
 import { FaCogs, FaClock, FaArrowCircleRight, FaArrowCircleDown, FaHome, FaUserCog, FaUserClock, FaPalette, FaMobile, FaUser, FaMoneyBill } from "react-icons/fa";
-import { FaMobileScreenButton } from "react-icons/fa6";
+import { FaMobileScreenButton, FaScrewdriverWrench } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 
 interface AsideMenuProps {
@@ -42,6 +42,11 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ sidebarOpen = false, setSidebarOp
           <li className="hover:bg-gray-700 transition-colors">
             <NavLink to="services" className="flex items-center p-4 text-sm font-medium">
               <FaMobileScreenButton />&nbsp;Phone Services
+            </NavLink>
+          </li>
+          <li className="hover:bg-gray-700 transition-colors">
+            <NavLink to="teachnician" className="flex items-center p-4 text-sm font-medium">
+              <FaScrewdriverWrench />&nbsp;Teachnician
             </NavLink>
           </li>
           <li className="relative">

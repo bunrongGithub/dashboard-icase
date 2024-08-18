@@ -6,7 +6,7 @@ import TeachnicianProps from "./definition"
 const widths = [50, 150, 150];
 
 
-export const PaymentMethod: React.FC = () => {
+export const Teachnicain: React.FC = () => {
     const [teachnician, setTeachnician] = useState<TeachnicianProps[]>([]);
     const [error, setError] = useState<any>();
     const [loading, setLoading] = useState(true);
@@ -14,6 +14,8 @@ export const PaymentMethod: React.FC = () => {
         const fetchTeachnician = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/teachnician`);
+                console.log(response.data);
+                
                 setTeachnician(response.data);
             } catch (error) {
                 console.log(error);
@@ -36,6 +38,11 @@ export const PaymentMethod: React.FC = () => {
                     <tr>
                         <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">No</th>
                         <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Teachnicain Name</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Skill</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Responsibility</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Position</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Salary</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Contact</th>
                         <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider flex items-center">
                             <FaCog />&nbsp; Action
                         </th>
@@ -50,6 +57,11 @@ export const PaymentMethod: React.FC = () => {
                             <tr key={index} className="hover:bg-gray-100">
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.techId}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.techName}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.skills}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.responsible}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.roleName}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.salary}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.contact}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
                                     <button><FaTrash className="text-red-700 size-4" /></button>
                                     &nbsp;&nbsp;
