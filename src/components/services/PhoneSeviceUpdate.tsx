@@ -10,6 +10,9 @@ import { PhoneModelType } from "../settings/phone_model/definition";
 import StatusProps from "../settings/status/definition";
 import TeachnicianProps from "../teachnician/definition";
 import { TablePhoneItemHead } from "./TablePhoneItemHead";
+import AlertBox from "./AlertBox";
+import { ViewAndUpdateHeader } from "./ViewAndUpdateHeader";
+import ViewAndUpdateFooter from "./ViewAndUpdateFooter";
 export const PhoneServiceUpdate: React.FC = () => {
     const [itemDetails, setItemDetails] = useState<ViewPhoneServiceProps>();
     const [phoneItems, setPhoneItems] = useState<PhoneServicesItemProps[]>([]);
@@ -20,17 +23,16 @@ export const PhoneServiceUpdate: React.FC = () => {
     const [colors, setColors] = useState<ColorsProps[]>([]);
     const [teachnician, setTeachnician] = useState<TeachnicianProps[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [repsonseMessage,setResponseMessage] = useState<string>('')
+    const [repsonseMessage, setResponseMessage] = useState<string>('')
     const { id } = useParams();
     useEffect(() => {
         const getItemsDetailById = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/service/${id}`)
-                if (response.status === 200)
+                if (response.status === 200) {
+                    setItemDetails(response.data)
                     setPhoneItems(response.data?.repaireItem)
-                setItemDetails(response.data)
-                console.log(response.data);
-                
+                }
             } catch (error) {
                 console.error(error)
             }
@@ -146,7 +148,7 @@ export const PhoneServiceUpdate: React.FC = () => {
             const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/service/${id}`, {
                 itemDetails, phoneItems
             });
-            if(response.status === 200){
+            if (response.status === 200) {
                 setResponseMessage(response.data?.message)
             }
         } catch (error) {
@@ -155,50 +157,29 @@ export const PhoneServiceUpdate: React.FC = () => {
             setLoading(false)
         }
     }
+    const removeRow = async (index:number):Promise<void> => {
+        const itemId = phoneItems[index].itemId;
+        if(itemId){
+            const response  = await axios.delete(`${import.meta.env.VITE_API_URL}/api/repaire_item/${itemId}`)
+            if(response.status === 200){
+                setPhoneItems((prevItems) => 
+                    prevItems.filter((item) => item.itemId !== itemId)
+                );
+            }
+        }
+    }
     return (
         <main className=" flex items-center justify-center">
             <article className="bg-white rounded-lg shadow-lg w-full p-6">
                 <ViewAndUpdateHeader handleAddMoreRow={handleAddMoreRow} />
-                {repsonseMessage && (
-    <div className="fixed top-4 right-4 md:right-8 bg-blue-600 text-white p-4 rounded-lg shadow-lg max-w-xs w-full z-50 flex items-center space-x-4">
-        <svg
-            className="h-6 w-6 flex-shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-        >
-            <path
-                fillRule="evenodd"
-                d="M10 2a8 8 0 00-8 8v2a8 8 0 0016 0V10a8 8 0 00-8-8zm-1 11a1 1 0 112 0 1 1 0 01-2 0zm1-4a1 1 0 00-.867.5L9 10.382V11a1 1 0 002 0v-1.382l-.133-.382A1 1 0 0010 9z"
-                clipRule="evenodd"
-            />
-        </svg>
-        <div className="flex-1">
-            <p className="font-medium">{repsonseMessage}</p>
-        </div>
-        <button
-            type="button"
-            className="text-white hover:text-gray-300"
-            onClick={() => setResponseMessage('')}
-        >
-            <svg
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-            >
-                <path
-                    fillRule="evenodd"
-                    d="M6.293 9.293a1 1 0 011.414 0L10 10.586l2.293-2.293a1 1 0 111.414 1.414L11.414 12l2.293 2.293a1 1 0 01-1.414 1.414L10 13.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 12 6.293 9.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                />
-            </svg>
-        </button>
-    </div>
-)}
-
+                {
+                    repsonseMessage && (
+                        <AlertBox 
+                            message={repsonseMessage} 
+                            setMessage={() => setResponseMessage('')}
+                        />
+                    )
+                }
                 <form onSubmit={handleSaveChange}>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 p-4 border border-gray-200 rounded-lg">
                         <section className="flex flex-col space-y-4">
@@ -465,49 +446,17 @@ export const PhoneServiceUpdate: React.FC = () => {
                                             </select>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            <button className="text-red-600"><FaTrash className="size-5" /></button>
+                                            <button type="button" onClick={() => removeRow(index)} className="text-red-600"><FaTrash className="size-5" /></button>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </article>
-                    <div className="flex justify-end mt-6 pt-4">
-                        <NavLink to="../services" className="mx-5 bg-red-600 flex items-center hover:bg-red-700 text-white px-4 py-2 rounded-md">
-                            <FaUndoAlt /> Back
-                        </NavLink>
-                        <button type="submit"
-                            className={`flex items-center text-white px-4 py-1.5 rounded-lg hover:bg-blue-800 transition ${loading ? "bg-blue-400" : "bg-blue-700 "}`}>
-                            <FaRegSave />&nbsp; {loading ? "Save..." : "Save"}
-                        </button>
-                    </div>
+                   <ViewAndUpdateFooter loading={loading} />
                 </form>
-
             </article>
         </main>
     );
 }
 
-interface ViewAndUpdateHeaderProps {
-    handleAddMoreRow: () => void
-}
-const ViewAndUpdateHeader: React.FC<ViewAndUpdateHeaderProps> = ({ handleAddMoreRow }) => {
-    return <>
-        <header className="flex justify-between items-center mb-6 border-b border-gray-200 pb-2">
-            <h3 className="text-2xl font-semibold text-gray-900">View & Update</h3>
-            <button className="text-gray-600 hover:text-gray-900 p-2 rounded-full">
-                <FaEye className="text-[#12263f]" size={20} />
-            </button>
-        </header>
-        <div className="flex justify-between items-center mb-2">
-            <p></p>
-            <button
-
-                className="bg-blue-700 flex items-center text-white px-4 py-1.5 rounded-lg hover:bg-blue-800 transition"
-                onClick={handleAddMoreRow}
-            >
-                <FaPlus />Add More
-            </button>
-        </div>
-    </>
-}
