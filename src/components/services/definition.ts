@@ -24,12 +24,12 @@ export interface ViewPhoneServiceProps{
 type StringOrNull = string;
 type numberOrNull = number;
 export interface PhoneServicesItemProps{
-    colorId?:numberOrNull;
+    colorId?:number | null;
     colorName?:StringOrNull;
     contact?:StringOrNull;
     moName?:StringOrNull;
     itemId?:numberOrNull;
-    moId?:numberOrNull;
+    moId?:number | null;
     password?:StringOrNull;
     price?:StringOrNull;
     problem?:StringOrNull;
@@ -38,9 +38,9 @@ export interface PhoneServicesItemProps{
     responsible?:StringOrNull;
     statusName?:StringOrNull;
     statusId?:numberOrNull;
-    stausId?:numberOrNull;
-    techId?:numberOrNull;
+    stausId?:number | null;
+    techId?:number | null | string | undefined | any;
     techName?:StringOrNull;
-    psId?:number | undefined;
+    psId?: any
     psName?:StringOrNull;
 }
