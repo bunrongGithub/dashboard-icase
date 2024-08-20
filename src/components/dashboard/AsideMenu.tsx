@@ -65,7 +65,7 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
       } md:relative md:translate-x-0 transition-transform duration-300`}
     >
       <div className="flex items-center justify-between p-4 border-b border-gray-700 md:hidden">
-        <h1 className="text-xl font-bold">Admin {username}</h1>
+        <h1 className="text-xl font-bold">Hello {username}</h1>
         <button
           className="text-white text-2xl"
           onClick={() => setSidebarOpen(!sidebarOpen)}
