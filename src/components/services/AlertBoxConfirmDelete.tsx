@@ -3,16 +3,17 @@ import { FaExclamation } from 'react-icons/fa'
 interface AlertBoxConfirmDeleteProps {
     isShowBox: boolean;
     onClose: () => void;
-    selectedId: number | string | undefined;
+    selectedId: number;
     onDelete: (id: number | string | undefined) => void;
 }
 const AlertBoxConfirmDelete: React.FC<AlertBoxConfirmDeleteProps> = ({
     isShowBox, onClose, selectedId, onDelete
 }) => {
     const [errorMsg, setErrorMsg] = useState<string>("")
-    const handleDelete = async () => {
-        console.log(selectedId)
+    const handleDelete = async (selectedId:number) => {
+        console.log(selectedId);
     }
+    handleDelete(selectedId)
     return (
         <article className={`fixed inset-0 z-50 flex items-center justify-center transition-transform ${isShowBox ? "translate-y-0" : "translate-y-full"} bg-black bg-opacity-50`}>
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
@@ -25,7 +26,7 @@ const AlertBoxConfirmDelete: React.FC<AlertBoxConfirmDeleteProps> = ({
                 </div>
                 <div className="mt-4 flex justify-end space-x-4">
                     <button
-                        onClick={handleDelete}
+                        onClick={() =>handleDelete}
                         className="bg-red-600 text-white px-4 py-2 rounded-lg"
                     >
                         Delete

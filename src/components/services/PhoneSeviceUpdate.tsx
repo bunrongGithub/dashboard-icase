@@ -30,8 +30,6 @@ export const PhoneServiceUpdate: React.FC = () => {
             console.error(error)
          }
       }
-
-
       const getPaymentMethod = async () => {
          try {
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/payment_method`);
@@ -119,7 +117,9 @@ export const PhoneServiceUpdate: React.FC = () => {
       const phoneIndex:number = index;
       if (itemId) {
          const response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/repaire_item/${itemId}`)
-         if(response.status === 200) console.log(response.data)
+         if(response.status === 200) {
+            setResponseMessage(response?.data?.message)
+         }
       }
       setPhoneItems((prevItems) =>
          prevItems.filter((_,index) => index !== phoneIndex)
