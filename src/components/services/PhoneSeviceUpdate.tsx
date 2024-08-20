@@ -9,6 +9,7 @@ import AlertBox from "./AlertBox";
 import { ViewAndUpdateHeader } from "./ViewAndUpdateHeader";
 import ViewAndUpdateFooter from "./ViewAndUpdateFooter";
 import { TablePhoneItemBody } from "./TablePhoneItemBody";
+import { FaBan } from "react-icons/fa";
 export const PhoneServiceUpdate: React.FC = () => {
    const [itemDetails, setItemDetails] = useState<ViewPhoneServiceProps>();
    const [phoneItems, setPhoneItems] = useState<PhoneServicesItemProps[]>([]);
@@ -115,14 +116,14 @@ export const PhoneServiceUpdate: React.FC = () => {
    }
    const removeRow = async (index: number): Promise<void | HTMLButtonElement> => {
       const itemId = phoneItems[index].itemId;
+      const phoneIndex:number = index;
       if (itemId) {
          const response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/repaire_item/${itemId}`)
-         if (response.status === 200) {
-            setPhoneItems((prevItems) =>
-               prevItems.filter((item) => item.itemId !== itemId)
-            );
-         }
+         if(response.status === 200) console.log(response.data)
       }
+      setPhoneItems((prevItems) =>
+         prevItems.filter((_,index) => index !== phoneIndex)
+      );
    }
    return (
       <main className=" flex items-center justify-center">
@@ -212,14 +213,14 @@ export const PhoneServiceUpdate: React.FC = () => {
                   </section>
                   <section className="flex flex-col space-y-4">
                      <div className="flex flex-col">
-                        <label htmlFor="serviceStatus" className="font-medium text-gray-800">Service Status:</label>
+                        <label htmlFor="serviceStatus" className="flex items-center font-medium text-gray-800">Service Status<FaBan className="text-red-600"/>:</label>
                         <input
                            id="serviceStatus"
-                           readOnly
+                           disabled
                            type="text"
                            onChange={handleItemDetailChangell('statusFixed')}
                            value={itemDetails?.statusFixed || ''}
-                           className={`mt-1 p-2 border border-gray-300 rounded-md ${itemDetails?.statusFixed === 'done'
+                           className={` cursor-not-allowed mt-1 p-2 border border-gray-300 rounded-md ${itemDetails?.statusFixed === 'done'
                               ? 'bg-green-100 text-green-800'
                               : itemDetails?.statusFixed?.toLowerCase() === 'pending'
                                  ? 'bg-red-100 text-red-800'
@@ -239,14 +240,15 @@ export const PhoneServiceUpdate: React.FC = () => {
                         />
                      </div>
                      <div className="flex flex-col">
-                        <label htmlFor="totalPrice" className="font-medium text-gray-800">Total Price:</label>
+                        <label htmlFor="totalPrice" className="font-medium text-gray-800 w-full flex items-center">Total Price(auto) <FaBan className="text-red-600"/> :</label>
                         <input
                            id="totalPrice"
                            type="text"
                            onChange={handleItemDetailChangell('total')}
                            value={`${itemDetails?.total || ''}`}
-                           className="mt-1 p-2 border border-gray-300 rounded-md text-green-800 font-medium"
+                           className="mt-1 p-2 border border-gray-300 rounded-md text-green-800 font-medium cursor-not-allowed"
                            style={{ letterSpacing: "1.5px" }}
+                           disabled
                         />
                      </div>
                   </section>
@@ -288,7 +290,6 @@ export const PhoneServiceUpdate: React.FC = () => {
                <article className="mb-6">
                   <div className="flex items-center justify-between ">
                      <h4 className="text-xl font-semibold text-gray-900 mb-4">{itemDetails?.repair?.deviceNumbers} Number of Phones Details</h4>
-
                   </div>
                   <table className="min-w-full divide-y divide-gray-200">
                      <TablePhoneItemHead />
