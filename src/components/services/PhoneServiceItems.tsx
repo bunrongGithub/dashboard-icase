@@ -1,9 +1,7 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { FaEdit, FaEye, FaPrint, FaTrash } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
 import { PhoneServicesProps } from './definition'
-import ReactToPrint from 'react-to-print'
-import PhoneServicePrint from './PhhoneServicePrint'
 const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
     , accept_date,
     repId,
@@ -12,7 +10,6 @@ const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
     psName, statusFixing,
     deviceNumbers,
     amount, created_at, updated_at }) => {
-    const componentRef = useRef(null);
     return (
         <>
             <tr>
@@ -39,26 +36,11 @@ const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center space-x-2">
                     <NavLink to={`../services/update/${repId}`} className="text-blue-600"><FaEdit /></NavLink>
                     <NavLink to={`../services/view/${repId}`} className="text-blue-600"><FaEye /></NavLink>
-                    <ReactToPrint
-                        trigger={() => <button><FaPrint /></button>}
-                        content={() => componentRef.current}
-                    />
+                    
                     <button className="text-red-700"><FaTrash /></button>
+                    <a target='_blank' href={'/../../print/'+repId} className="text-red-700"><FaPrint /></a>
                 </td>
             </tr>
-            <PhoneServicePrint
-                ref={componentRef.current}
-                phoneNumber={phoneNumber}
-                accept_date={accept_date}
-                duration={duration}
-                warrantyperoid={warrantyperoid}
-                psName={psName}
-                statusFixing={statusFixing}
-                deviceNumbers={deviceNumbers}
-                amount={amount}
-                created_at={created_at}
-                updated_at={updated_at}
-            />
         </>
 
     )
