@@ -4,7 +4,7 @@ import { PhoneServicesProps } from "./definition";
 import { fetchData } from "./data";
 import PhoneServiceItems from "./PhoneServiceItems";
 import { LoadingSkeleton } from "../skeleton/TableLoading"
-const widths = [50, 150, 150, 150, 150, 150, 150, 150, 150,40];
+const widths = [50, 150, 150, 150, 150, 150, 150, 150, 150, 40];
 
 export const PhoneServices: React.FC = () => {
     const [data, setData] = useState<PhoneServicesProps[]>([]);
@@ -110,22 +110,29 @@ export const PhoneServices: React.FC = () => {
 };
 
 const PhoneServiceTableHead: React.FC = () => {
+    const heads = [
+        { name: "Phone Number", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
+        { name: "Received Date", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
+        { name: "Service Duration", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
+        { name: "Warranty Period", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
+        { name: "Payment Status", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
+        { name: "Service Status", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
+        { name: "Number of Phones", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
+        { name: "Total Price", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
+        { name: "Creation Date", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
+        { name: "Update Date", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
+        { name: "Action", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider", svg: <FaCog className="inline" /> },
+    ]
     return <>
         <thead className="bg-[#12263f] text-white">
             <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold tracking-wider">Phone Number</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold tracking-wider">Received Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Service Duration</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Warranty Period</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Payment Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Service Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Number of Phones</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Total Price</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Creation Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Update Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                    <FaCog className="inline" /> Action
-                </th>
+                {
+                    heads.map((item, index) => (
+                        <th key={index} className={item.css}>
+                            {item.svg}{item.name}
+                        </th>
+                    ))
+                }
             </tr>
         </thead>
     </>
