@@ -38,7 +38,7 @@ const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
                     <NavLink to={`../services/view/${repId}`} className="text-blue-600"><FaEye /></NavLink>
                     
                     <button className="text-red-700"><FaTrash /></button>
-                    <NavLink to={`../services/print/${repId}`} className="text-red-700"><FaPrint /></NavLink>
+                    <NavLink  to={`../services/print/${repId}`} className="text-green-600"><FaPrint /></NavLink>
                 </td>
             </tr>
         </>

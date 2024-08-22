@@ -14,7 +14,7 @@ import PhoneServiceView from "./components/services/PhoneServiceView"
 import { PaymentMethod } from "./components/settings/payment_method/PaymentMethod"
 import { PhoneServiceUpdate } from "./components/services/PhoneSeviceUpdate"
 import { Teachnicain } from "./components/teachnician/Teachnician"
-import PhoneServicePrint from "./components/services/PhhoneServicePrint"
+import {PhoneServicePrint} from "./components/services/PhhoneServicePrint"
 export const App: React.FC = () => {
   return (
     <Router>
