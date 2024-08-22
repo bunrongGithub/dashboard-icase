@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FaEye } from "react-icons/fa";
-import { PhoneServicesItemProps , ViewPhoneServiceProps } from "./definition";
+import { FaEye, FaPrint, FaUndo } from "react-icons/fa";
+import { PhoneServicesItemProps, ViewPhoneServiceProps } from "./definition";
 import { NavLink, useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -130,12 +130,12 @@ const PhoneServiceView: React.FC = () => {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <span className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${phone?.psName?.toLocaleLowerCase() === 'done' ? 
-                                            'bg-green-100 text-green-800':phone?.psName?.toLocaleLowerCase() === "pending" || phone?.psName?.toLocaleLowerCase() === "non" ? 
-                                            "bg-red-100 text-red-800":"bg-yellow-100 text-yellow-800"
-                                        }`}>
+                                        <span className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${phone?.psName?.toLocaleLowerCase() === 'done' ?
+                                            'bg-green-100 text-green-800' : phone?.psName?.toLocaleLowerCase() === "pending" || phone?.psName?.toLocaleLowerCase() === "non" ?
+                                                "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"
+                                            }`}>
 
-                                        {phone.psName}
+                                            {phone.psName}
                                         </span>
                                     </td>
                                 </tr>
@@ -144,8 +144,11 @@ const PhoneServiceView: React.FC = () => {
                     </table>
                 </div>
                 <div className="flex justify-end mt-6 border-t border-gray-200 pt-4">
-                    <NavLink to="../services" className="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition">
-                        Back
+                    <NavLink to={`../services/print/${id}`} className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition mx-2 flex items-center">
+                       <FaPrint/> Print
+                    </NavLink>
+                    <NavLink to="../services" className="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition flex items-center ">
+                       <FaUndo/> Back
                     </NavLink>
                 </div>
             </div>
