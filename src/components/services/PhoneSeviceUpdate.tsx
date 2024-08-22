@@ -306,7 +306,9 @@ export const PhoneServiceUpdate: React.FC = () => {
                      </tbody>
                   </table>
                </article>
-               <ViewAndUpdateFooter loading={loading} />
+               <ViewAndUpdateFooter loading={loading} 
+                  selectedId={id}
+               />
             </form>
          </article>
       </main>
