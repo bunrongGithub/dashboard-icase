@@ -22,19 +22,19 @@ export const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<LoginForm/>}/>
           <Route path="/dashboard" element={<Dashboard/>}>
-           <Route path="colors" element={<Colors/>}/>
-           <Route path="status" element={<Status/>}/>
-           <Route path="payment-status" element={<PaymentStatus/>}/>
-           <Route path="payment-method" element={<PaymentMethod/>}/>
-           <Route path="phone-model" element={<PhoneModel/>}/>
-           <Route path="users-role" element={<UserRole/>}/>
-           <Route path="users" element={<Users/>}/>
-           <Route path="teachnician" element={<Teachnicain/>}/>
-           <Route path="services" element={<PhoneServices/>}/>
-           <Route path="services/view/:id" element={<PhoneServiceView/>}/>
-           <Route path="services/update/:id" element={<PhoneServiceUpdate/>}/>
+            <Route path="colors" element={<Colors/>}/>
+            <Route path="status" element={<Status/>}/>
+            <Route path="payment-status" element={<PaymentStatus/>}/>
+            <Route path="payment-method" element={<PaymentMethod/>}/>
+            <Route path="phone-model" element={<PhoneModel/>}/>
+            <Route path="users-role" element={<UserRole/>}/>
+            <Route path="users" element={<Users/>}/>
+            <Route path="teachnician" element={<Teachnicain/>}/>
+            <Route path="services" element={<PhoneServices/>}/>
+            <Route path="services/view/:id" element={<PhoneServiceView/>}/>
+            <Route path="services/update/:id" element={<PhoneServiceUpdate/>}/>
+            <Route path="services/print/:id" element={<PhoneServicePrint/>}/>
           </Route>
-          <Route path="/print/:id" element={<PhoneServicePrint/>}/>
         </Routes>
       </AuthProvider>
     </Router>

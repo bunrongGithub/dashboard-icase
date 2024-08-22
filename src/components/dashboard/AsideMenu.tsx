@@ -60,6 +60,7 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
 }) => {
   return (
     <aside
+      id='aside_hidden'
       className={`fixed top-0 left-0 w-60 bg-[#12263f] text-white min-h-screen flex flex-col transform ${
         sidebarOpen ? 'translate-x-0 p-2' : '-translate-x-60'
       } md:relative md:translate-x-0 transition-transform duration-300`}

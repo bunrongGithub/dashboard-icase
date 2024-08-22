@@ -1,13 +1,43 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>icase mobile</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>icase mobile</title>
+  <style>
+    @media print {
+      #aside_hidden{
+        display: none !important;
+      }
+      #dashboard_header {
+        display: none !important;
+      }
+
+      @page {
+        margin: 300px;
+        /* Adjust margins as needed */
+      }
+
+      @page :left {
+        @bottom-left {
+          content: none;
+        }
+      }
+
+      @page :right {
+        @bottom-right {
+          content: none;
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
