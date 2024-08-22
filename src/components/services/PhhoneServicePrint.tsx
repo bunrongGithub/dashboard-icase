@@ -27,11 +27,11 @@ export const PhoneServicePrint: React.FC = () => {
     getItemsDetailById();
   }, [id]);
 
-  // useEffect(() => {
-  //   if (isLoaded) {
-  //     window.print(); // Print only when data is loaded
-  //   }
-  // }, [isLoaded]);
+  useEffect(() => {
+    if (isLoaded) {
+      window.print(); // Print only when data is loaded
+    }
+  }, [isLoaded]);
 
   if (!isLoaded) {
     return <div>Loading...</div>; // Render a loading state or spinner
