@@ -228,17 +228,7 @@ export const PhoneServiceUpdate: React.FC = () => {
                               }`}
                         />
                      </div>
-                     <div className="flex flex-col">
-                        <label htmlFor="deviceNumbers" className="font-medium text-gray-800">Number of Phones:</label>
-                        <input
-                           id="deviceNumbers"
-                           type="text"
-                           onChange={handleItemDetailChange('deviceNumbers')}
-                           value={`${itemDetails?.repair?.deviceNumbers || ''}`}
-                           className="mt-1 p-2 border border-gray-300 rounded-md text-green-800"
-                           style={{ letterSpacing: "1.5px" }}
-                        />
-                     </div>
+                     
                      <div className="flex flex-col">
                         <label htmlFor="totalPrice" className="font-medium text-gray-800 w-full flex items-center">Total Price(auto) <FaBan className="text-red-600"/> :</label>
                         <input

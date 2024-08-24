@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { FaCog, FaPlusCircle, FaPrint, FaFileAlt, FaFilter } from "react-icons/fa";
 import { PhoneServicesProps } from "./definition";
 import { fetchData } from "./data";
 import PhoneServiceItems from "./PhoneServiceItems";
 import { LoadingSkeleton } from "../skeleton/TableLoading"
+import { NavLink } from "react-router-dom";
 const widths = [50, 150, 150, 150, 150, 150, 150, 150, 150, 40];
 
 export const PhoneServices: React.FC = () => {
     const [data, setData] = useState<PhoneServicesProps[]>([]);
+    const [search,setSearch] = useState<string>('');
+    const [filtering,setFiltering] = useState<PhoneServicesProps[]>([])
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [loading, setIsLoading] = useState(true);
@@ -17,6 +20,7 @@ export const PhoneServices: React.FC = () => {
                 setIsLoading(true);
                 await fetchData().then(res => res).then(res => {
                     setData(res);
+                    setFiltering(res)
                     setIsLoading(false)
                 }).catch(er => console.error(er));
             } catch (error) {
@@ -30,15 +34,22 @@ export const PhoneServices: React.FC = () => {
     const handleFilter = () => {
         // Your filtering logic here
     };
-
+    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+        const liveSearch:string = e.target.value;
+        const filterLiveItems:PhoneServicesProps[] = data.filter(item => item.phoneNumber?.includes(liveSearch))
+        setFiltering(filterLiveItems)
+        setSearch(liveSearch)
+    }
     return (
         <section className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
             <div className="flex items-center justify-between bg-gray-50 border-b border-gray-200 mb-4">
                 <div className="flex items-center space-x-4 justify-center p-2">
                     <input
-                        type="text"
-                        placeholder="Search..."
+                        type="search"
+                        placeholder="Search... 09997..."
                         className="bg-gray-100 border border-gray-300 rounded-md px-3 py-1.5 text-sm"
+                        value={search}
+                        onChange={handleSearch}
                     />
                     <input
                         type="date"
@@ -61,12 +72,9 @@ export const PhoneServices: React.FC = () => {
                     </button>
                 </div>
                 <div className="flex items-center space-x-4">
-                    <button className="flex items-center border px-3 py-1 bg-blue-700 text-white rounded-lg">
+                    <NavLink to="../services/create" className="flex items-center border px-3 py-1 bg-blue-700 text-white rounded-lg">
                         <FaPlusCircle className="mr-1" /> Add New
-                    </button>
-                    <button className="flex items-center border px-3 py-1 bg-green-600 text-white rounded-lg">
-                        <FaPrint className="mr-1" /> Print
-                    </button>
+                    </NavLink>
                     <button className="flex items-center border px-3 py-1 bg-gray-600 text-white rounded-lg">
                         <FaFileAlt className="mr-1" /> Report
                     </button>
@@ -82,7 +90,7 @@ export const PhoneServices: React.FC = () => {
                             </tbody>
                         ) : (
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {data?.map((item, index) => (
+                                {filtering?.slice(0,10).map((item, index) => (
                                     <PhoneServiceItems key={index}
                                         deviceNumbers={item.deviceNumbers}
                                         phoneNumber={item.phoneNumber}
