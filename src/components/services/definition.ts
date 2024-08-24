@@ -11,9 +11,8 @@ export interface PhoneServicesProps {
     payment_method_id?: string | number | null;
     payment_method_name?:string;
     phoneNumber?: string | null;
-    statusFixing?: string | null;
     updated_at?: string | null;
-    warrantyperoid?: string | null
+    warrantyperoid?: string | null;
 }
 export interface ViewPhoneServiceProps{
     repair?:PhoneServicesProps

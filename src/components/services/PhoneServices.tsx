@@ -72,8 +72,8 @@ export const PhoneServices: React.FC = () => {
                     </button>
                 </div>
             </div>
-            <div className="max-w-xl">
-                <table className="min-w-full divide-y divide-gray-200">
+            <div className="w-full">
+                <table className="w-full divide-y divide-gray-200">
                     <PhoneServiceTableHead />
                     {
                         loading ? (
@@ -86,7 +86,6 @@ export const PhoneServices: React.FC = () => {
                                     <PhoneServiceItems key={index}
                                         deviceNumbers={item.deviceNumbers}
                                         phoneNumber={item.phoneNumber}
-                                        statusFixing={item.statusFixing}
                                         duration={item.duration}
                                         warrantyperoid={item.warrantyperoid}
                                         psId={item.psId}
@@ -116,9 +115,9 @@ const PhoneServiceTableHead: React.FC = () => {
         { name: "Service Duration", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
         { name: "Warranty Period", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
         { name: "Payment Status", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
-        { name: "Service Status", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
         { name: "Number of Phones", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
         { name: "Total Price", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
+        { name: "Description", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
         { name: "Creation Date", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
         { name: "Update Date", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
         { name: "Action", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider", svg: <FaCog className="inline" /> },

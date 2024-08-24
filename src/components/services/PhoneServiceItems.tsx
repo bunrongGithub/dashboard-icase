@@ -3,11 +3,11 @@ import { FaEdit, FaEye, FaPrint, FaTrash } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
 import { PhoneServicesProps } from './definition'
 const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
-    , accept_date,
+    , accept_date,description,
     repId,
     duration,
     warrantyperoid,
-    psName, statusFixing,
+    psName,
     deviceNumbers,
     amount, created_at, updated_at }) => {
     return (
@@ -28,9 +28,9 @@ const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
                         {psName}
                     </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{statusFixing}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{deviceNumbers}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{amount}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{description}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{created_at}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{updated_at}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center space-x-2">
