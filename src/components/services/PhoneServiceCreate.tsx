@@ -1,13 +1,20 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
-import { FaDollarSign, FaPlus, FaTrash } from 'react-icons/fa'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { FaPlus, FaRegSave, FaTrash, FaUndoAlt } from 'react-icons/fa'
 import { PhoneServicesItemProps, PhoneServicesProps } from './definition';
 import { PhoneModelType } from '../settings/phone_model/definition';
 import axios from 'axios';
 import { ColorsProps } from '../settings/colors/definition';
 import TeachnicianProps from '../teachnician/definition';
+import { NavLink } from 'react-router-dom';
 
 export const PhoneServiceCreate: React.FC = () => {
-  const [itemDetail,setItemDetail] = useState<PhoneServicesProps>()
+  const [itemDetail, setItemDetail] = useState<PhoneServicesProps>({
+    phoneNumber:'' ,
+    accept_date:'',
+    warrantyperoid:'',
+    duration:'',
+    description:''
+  })
   const [items, setItems] = useState<PhoneServicesItemProps[]>([]);
   const [models, setModels] = useState<PhoneModelType[]>([]);
   const [colors, setColors] = useState<ColorsProps[]>([]);
@@ -71,15 +78,28 @@ export const PhoneServiceCreate: React.FC = () => {
   const handleItemDetailChange = (keyprop: keyof PhoneServicesProps) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { value } = event.target;
     setItemDetail(prev => ({
-       ...prev, repair: {
-          ...prev, [keyprop]: value
-       }
+      ...prev,[keyprop]: value
     }))
- }
+  }
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const {phoneNumber,accept_date,duration,description,warrantyperoid} = itemDetail;
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/service`,{
+        phoneNumber,accept_date,duration,description,warrantyperoid,items
+      })
+      if(response.status === 200){
+        console.log(response.data);
+      }
+    } catch (error: any) {
+     console.log(error?.response?.data?.message);
+      
+    }
+  }
   return (
     <main className='flex items-center justify-center'>
       <article className='bg-white rounded-lg w-full p-6'>
-        <form action="">
+        <form onSubmit={handleSubmit} action="">
           <section className='grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 p-4 border border-gray-200 rounded-lg'>
             <div className='lex flex-col space-y-4'>
               <div className='flex flex-col'>
@@ -89,7 +109,7 @@ export const PhoneServiceCreate: React.FC = () => {
                   id="phoneNumber"
                   type="text"
                   className="mt-1 p-2 border border-gray-300 rounded-md"
-                  value={itemDetail?.phoneNumber||undefined}
+                  value={itemDetail?.phoneNumber || ''}
                   onChange={handleItemDetailChange('phoneNumber')}
                   placeholder='Enter phone'
                 />
@@ -102,7 +122,7 @@ export const PhoneServiceCreate: React.FC = () => {
                   id="accept_date"
                   type="date"
                   className="mt-1 p-2 border border-gray-300 rounded-md"
-                  value={itemDetail?.accept_date||undefined}
+                  value={itemDetail?.accept_date || ''}
                   onChange={handleItemDetailChange('accept_date')}
                 />
               </div>
@@ -115,7 +135,7 @@ export const PhoneServiceCreate: React.FC = () => {
                 className="mt-1 p-2 border border-gray-300 rounded-md"
                 placeholder='Enter duration'
 
-                value={itemDetail?.duration||undefined}
+                value={itemDetail?.duration || ''}
                 onChange={handleItemDetailChange('duration')}
               />
             </div>
@@ -127,7 +147,7 @@ export const PhoneServiceCreate: React.FC = () => {
                 className="mt-1 p-2 border border-gray-300 rounded-md"
                 placeholder='Enter warranty'
 
-                value={itemDetail?.warrantyperoid||undefined}
+                value={itemDetail?.warrantyperoid || ''}
                 onChange={handleItemDetailChange('warrantyperoid')}
               />
             </div>
@@ -139,11 +159,11 @@ export const PhoneServiceCreate: React.FC = () => {
                 className="mt-1 p-2 border border-gray-300 rounded-md"
                 placeholder='Enter desc'
 
-                value={itemDetail?.description||undefined}
+                value={itemDetail?.description || ''}
                 onChange={handleItemDetailChange('description')}
               />
             </div>
-           
+
           </section>
           <section className='mb-6'>
             <div className="flex items-center justify-between ">
@@ -226,7 +246,7 @@ export const PhoneServiceCreate: React.FC = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         <select
-                          onChange={ event => handleChangeItem(index, 'techId')(event)}
+                          onChange={event => handleChangeItem(index, 'techId')(event)}
                           value={item?.techId || ''}
                           className={`mt-1.5 p-[9px] border border-gray-300 rounded-md`}
                         >
@@ -243,15 +263,24 @@ export const PhoneServiceCreate: React.FC = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         <button className='flex items-center' type='button'>
-                          <FaTrash className='text-red-700'/>
+                          <FaTrash className='text-red-700' />
                         </button>
                       </td>
                     </tr>
                   ))
                 }
               </tbody>
-              {/* <TablePhoneItemHead/> */}
             </table>
+            <div className="flex justify-end items-center">
+              <NavLink to="../services" className=" bg-red-600 flex items-center hover:bg-red-700 text-white px-3 py-1 rounded-md m-5">
+                <FaUndoAlt /> Back
+              </NavLink>
+
+              <button type="submit"
+              className=" bg-blue-700 flex items-center hover:bg-blue-800 text-white px-3 py-1 rounded-md"
+              >                <FaRegSave />&nbsp;Save
+              </button>
+            </div>
           </section>
         </form>
       </article>
