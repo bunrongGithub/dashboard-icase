@@ -19,7 +19,8 @@ export const PhoneServiceCreate: React.FC = () => {
   const [models, setModels] = useState<PhoneModelType[]>([]);
   const [colors, setColors] = useState<ColorsProps[]>([]);
   const [teachnician, setTeachnician] = useState<TeachnicianProps[]>([]);
-
+  const [validateMessage,setValidateMessage] = useState<string>('');
+  const [validateItems,setValidateItems] = useState<string | any>('');
   useEffect(() => {
     const getPhoneModels = async () => {
       try {
@@ -84,22 +85,29 @@ export const PhoneServiceCreate: React.FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const {phoneNumber,accept_date,duration,description,warrantyperoid} = itemDetail;
+    if(phoneNumber === '' || accept_date === ''){
+      setValidateMessage("Phone number & accept date are require!")
+      return;
+    }
+    setValidateMessage('')
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/service`,{
         phoneNumber,accept_date,duration,description,warrantyperoid,items
       })
       if(response.status === 200){
+        setValidateItems("")
         console.log(response.data);
       }
     } catch (error: any) {
-     console.log(error?.response?.data?.message);
-      
+      setValidateItems(error?.response?.data?.message)
+      console.log(error?.response?.data?.message);
     }
   }
   return (
     <main className='flex items-center justify-center'>
       <article className='bg-white rounded-lg w-full p-6'>
         <form onSubmit={handleSubmit} action="">
+        {validateMessage && <p style={{letterSpacing:"1.5px"}} className='text-rose-800 font-medium'>{validateMessage}</p>}
           <section className='grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 p-4 border border-gray-200 rounded-lg'>
             <div className='lex flex-col space-y-4'>
               <div className='flex flex-col'>
@@ -176,6 +184,7 @@ export const PhoneServiceCreate: React.FC = () => {
                 <FaPlus />&nbsp;Add
               </button>
             </div>
+            {validateItems && <p style={{letterSpacing:"1.5px"}} className='text-red-800 font-medium mb-2'>{validateItems}</p>}
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-[#12263f] text-slate-100">
                 <tr>
