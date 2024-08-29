@@ -40,7 +40,7 @@ export const PhoneServices: React.FC = () => {
         setFiltering(filterLiveItems)
         setSearch(liveSearch)
     }
-    // console.log(data)
+    console.log(data)
     return (
         <section className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
             <div className="flex items-center justify-between bg-gray-50 border-b border-gray-200 mb-4">
