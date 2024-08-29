@@ -7,7 +7,6 @@ import { ColorsProps } from '../settings/colors/definition';
 import TeachnicianProps from '../teachnician/definition';
 import { NavLink } from 'react-router-dom';
 import { PaymentStatusProps } from '../settings/payment_status/definition';
-
 export const PhoneServiceCreate: React.FC = () => {
   const [itemDetail, setItemDetail] = useState<PhoneServicesProps>({
     phoneNumber: '',
@@ -27,6 +26,7 @@ export const PhoneServiceCreate: React.FC = () => {
   const validateItemLength: number = items?.length;
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatusProps[]>([]);
   const [validatePaymentStatus,setValidatePaymentStatus] = useState<string>('');
+  
   useEffect(() => {
     const getPaymentStatus = async () => {
       try {
@@ -100,7 +100,6 @@ export const PhoneServiceCreate: React.FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { phoneNumber, accept_date, duration, description, warrantyperoid,psId } = itemDetail;
-    
     if (phoneNumber === '' || accept_date === '') {
       setValidateMessage("Phone number & accept date are require!")
       return;
