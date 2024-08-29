@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { FaPlus, FaPrint, FaRegSave, FaTrash, FaUndoAlt } from 'react-icons/fa'
+import { FaPlus, FaPrint, FaRegSave, FaTrash, FaUndoAlt } from 'react-icons/fa'
 import { PhoneServicesItemProps, PhoneServicesProps } from './definition';
 import { PhoneModelType } from '../settings/phone_model/definition';
 import axios from 'axios';
@@ -14,6 +15,8 @@ export const PhoneServiceCreate: React.FC = () => {
     accept_date: '',
     warrantyperoid: '',
     duration: '',
+    description: '',
+    psId: null
     description: '',
     psId: null
   })
@@ -36,10 +39,19 @@ export const PhoneServiceCreate: React.FC = () => {
         console.log(error);
       }
     }
+    const getPaymentStatus = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/payment_status`);
+        setPaymentStatus(response.data);
+      } catch (error: any) {
+        console.log(error);
+      }
+    }
     const getPhoneModels = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/models`);
         setModels(response.data);
+      } catch (error: any) {
       } catch (error: any) {
         console.log(error)
       }
@@ -59,9 +71,11 @@ export const PhoneServiceCreate: React.FC = () => {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/teachnician`);
         setTeachnician(response.data);
       } catch (error: any) {
+      } catch (error: any) {
         console.error(error);
       }
     };
+    getPaymentStatus();
     getPaymentStatus();
     getColors();
     getPhoneModels();
@@ -116,23 +130,43 @@ export const PhoneServiceCreate: React.FC = () => {
       return;
     }
     setValidateItemsLengthMessage("");
+    if (psId === 0 || psId === null || psId === '') {
+      setValidatePaymentStatus("Payment Status are require please select!")
+      return;
+    }
+    setValidatePaymentStatus("")
+    setValidateMessage('');
+    if (!validateItemLength) {
+      setValidateItemsLengthMessage("Item must has a row!")
+      return;
+    }
+    setValidateItemsLengthMessage("");
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/service`, {
+        phoneNumber, accept_date, duration, description, warrantyperoid, psId, items
         phoneNumber, accept_date, duration, description, warrantyperoid, psId, items
       })
       if (response.status === 200) {
         setIsResponding(true)
+        setIsResponding(true)
         setValidateItems("")
+        setRespondingInsertId(response?.data?.body?.insertId);
+        setRespondingMessage(response?.data?.body?.message)
         setRespondingInsertId(response?.data?.body?.insertId);
         setRespondingMessage(response?.data?.body?.message)
       }
     } catch (error: any) {
+      setValidateItems(error?.response?.data?.message)
       setValidateItems(error?.response?.data?.message)
     }
   }
   return (
     <main className='flex items-center justify-center'>
       <article className='bg-white rounded-lg w-full p-6'>
+        {
+          respondingMessage &&
+          <AlertBox message={respondingMessage} setMessage={() => setRespondingMessage('')}/>
+        }
         {
           respondingMessage &&
           <AlertBox message={respondingMessage} setMessage={() => setRespondingMessage('')}/>
@@ -220,6 +254,24 @@ export const PhoneServiceCreate: React.FC = () => {
                 ))}
               </select>
             </div>
+            <div className="flex flex-col">
+              <label htmlFor="paymentStatus" className="font-medium text-gray-800">Payment Status: <span className='text-red-800'>*</span></label>
+              {validatePaymentStatus && <p className='text-red-800 text-[12px]'>{validatePaymentStatus}</p>}
+              <select
+                className={`mt-1.5 p-[9px] border border-gray-300 rounded-md`}
+                onChange={handleItemDetailChange('psId')}
+                value={itemDetail?.psId || ''}
+              >
+                <option value="" >
+                  ---Select one---
+                </option>
+                {paymentStatus?.map((ps, psIndex) => (
+                  <option key={psIndex} value={ps.psId}>
+                    {ps.psName}
+                  </option>
+                ))}
+              </select>
+            </div>
           </section>
           <section className='mb-6'>
             <div className="flex items-center justify-between ">
@@ -234,7 +286,9 @@ export const PhoneServiceCreate: React.FC = () => {
             </div>
             {validateItems && <p style={{ letterSpacing: "1.5px" }} className='text-red-800 font-medium mb-2'>{validateItems}</p>}
             {validateItemsLengthMessage && <p className='text-rose-800 tracking-widest text-[20px]'>{validateItemsLengthMessage}</p>}
+            {validateItemsLengthMessage && <p className='text-rose-800 tracking-widest text-[20px]'>{validateItemsLengthMessage}</p>}
             <table className="min-w-full divide-y divide-gray-200">
+              <TableHeading />
               <TableHeading />
               <tbody className="bg-slate-50 shadow-sm">
                 {
@@ -287,7 +341,9 @@ export const PhoneServiceCreate: React.FC = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         <input
                           type="number"
+                          type="number"
                           onChange={e => handleChangeItem(index, 'price')(e)}
+                          value={item.price || 0.00}
                           value={item.price || 0.00}
                           className="w-full p-2 border border-gray-300 rounded-md"
                         />
@@ -319,6 +375,7 @@ export const PhoneServiceCreate: React.FC = () => {
               </tbody>
             </table>
         <FooterAction netWorkResponding = {isResponding} selectedId={respondingInsertId} />
+        <FooterAction netWorkResponding = {isResponding} selectedId={respondingInsertId} />
           </section>
         </form>
       </article>
@@ -335,10 +392,19 @@ const TableHeading: React.FC = () => {
     { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Responsible" },
     { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Action" },
   ]
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Model" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Color" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Password" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Problem" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Price" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Responsible" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Action" },
+  ]
   return (
     <thead className="bg-[#12263f] text-slate-100">
       <tr>
         {
+          tableHeading.map((item, index) => (
           tableHeading.map((item, index) => (
             <th key={index} className={item.css}>{item.name}</th>
           ))
@@ -352,11 +418,22 @@ type FooterActionProps = {
   selectedId: number | undefined
 }
 const FooterAction: React.FC<FooterActionProps> = ({ netWorkResponding, selectedId }) => {
+type FooterActionProps = {
+  netWorkResponding: boolean
+  selectedId: number | undefined
+}
+const FooterAction: React.FC<FooterActionProps> = ({ netWorkResponding, selectedId }) => {
   return (
     <div className="flex justify-end items-center">
       <NavLink to="../services" className=" bg-red-600 flex items-center hover:bg-red-700 text-white px-3 py-1 rounded-md m-5">
         <FaUndoAlt /> Back
       </NavLink>
+      {
+        netWorkResponding ?
+          <NavLink to={`../services/print/${selectedId}`} className=" bg-green-700 flex items-center hover:bg-green-800 text-white px-3 py-1 rounded-md m-5">
+            <FaPrint /> Print
+          </NavLink> : ''
+      }
       {
         netWorkResponding ?
           <NavLink to={`../services/print/${selectedId}`} className=" bg-green-700 flex items-center hover:bg-green-800 text-white px-3 py-1 rounded-md m-5">
