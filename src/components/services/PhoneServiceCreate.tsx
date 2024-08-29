@@ -9,17 +9,18 @@ import { NavLink } from 'react-router-dom';
 
 export const PhoneServiceCreate: React.FC = () => {
   const [itemDetail, setItemDetail] = useState<PhoneServicesProps>({
-    phoneNumber:'' ,
-    accept_date:'',
-    warrantyperoid:'',
-    duration:'',
-    description:''
+    phoneNumber: '',
+    accept_date: '',
+    warrantyperoid: '',
+    duration: '',
+    description: ''
   })
   const [items, setItems] = useState<PhoneServicesItemProps[]>([]);
   const [models, setModels] = useState<PhoneModelType[]>([]);
   const [colors, setColors] = useState<ColorsProps[]>([]);
   const [teachnician, setTeachnician] = useState<TeachnicianProps[]>([]);
-
+  const [validateMessage, setValidateMessage] = useState<string>('');
+  const [validateItems, setValidateItems] = useState<string | any>('');
   useEffect(() => {
     const getPhoneModels = async () => {
       try {
@@ -78,27 +79,35 @@ export const PhoneServiceCreate: React.FC = () => {
   const handleItemDetailChange = (keyprop: keyof PhoneServicesProps) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { value } = event.target;
     setItemDetail(prev => ({
-      ...prev,[keyprop]: value
+      ...prev, [keyprop]: value
     }))
   }
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const {phoneNumber,accept_date,duration,description,warrantyperoid} = itemDetail;
+    const { phoneNumber, accept_date, duration, description, warrantyperoid } = itemDetail;
+    if (phoneNumber === '' || accept_date === '') {
+      setValidateMessage("Phone number & accept date are require!")
+      return;
+    }
+    setValidateMessage('')
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/service`,{
-        phoneNumber,accept_date,duration,description,warrantyperoid,items
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/service`, {
+        phoneNumber, accept_date, duration, description, warrantyperoid, items
       })
-      if(response.status === 200){
+      if (response.status === 200) {
+        setValidateItems("")
         console.log(response.data);
       }
     } catch (error: any) {
-     console.log(error?.response?.data?.message);
+      console.log(error?.response?.data?.message);
+
     }
   }
   return (
     <main className='flex items-center justify-center'>
       <article className='bg-white rounded-lg w-full p-6'>
         <form onSubmit={handleSubmit} action="">
+          {validateMessage && <p style={{ letterSpacing: "1.5px" }} className='text-rose-800 font-medium'>{validateMessage}</p>}
           <section className='grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 p-4 border border-gray-200 rounded-lg'>
             <div className='lex flex-col space-y-4'>
               <div className='flex flex-col'>
@@ -175,18 +184,9 @@ export const PhoneServiceCreate: React.FC = () => {
                 <FaPlus />&nbsp;Add
               </button>
             </div>
+            {validateItems && <p style={{ letterSpacing: "1.5px" }} className='text-red-800 font-medium mb-2'>{validateItems}</p>}
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-[#12263f] text-slate-100">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Model</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Color</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Password</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Problem</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Price</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Responsible</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Action</th>
-                </tr>
-              </thead>
+              <TableHeading/>
               <tbody className="bg-slate-50 shadow-sm">
                 {
                   items?.map((item, index) => (
@@ -257,7 +257,6 @@ export const PhoneServiceCreate: React.FC = () => {
                               {tech.techName}
                             </option>
                           ))}
-
                         </select>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -270,19 +269,45 @@ export const PhoneServiceCreate: React.FC = () => {
                 }
               </tbody>
             </table>
-            <div className="flex justify-end items-center">
-              <NavLink to="../services" className=" bg-red-600 flex items-center hover:bg-red-700 text-white px-3 py-1 rounded-md m-5">
-                <FaUndoAlt /> Back
-              </NavLink>
-
-              <button type="submit"
-              className=" bg-blue-700 flex items-center hover:bg-blue-800 text-white px-3 py-1 rounded-md"
-              >                <FaRegSave />&nbsp;Save
-              </button>
-            </div>
+            <FooterAction />
           </section>
         </form>
       </article>
     </main>
+  )
+}
+const TableHeading: React.FC = () => {
+  const tableHeading = [
+    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Model"},
+    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Color"},
+    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Password"},
+    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Price"},
+    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Responsible"},
+    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Action"},
+  ] 
+  return (
+    <thead className="bg-[#12263f] text-slate-100">
+      <tr>
+        {
+          tableHeading.map((item,index) => (
+            <th key={index} className={item.css}>{item.name}</th>
+          ))
+        }
+      </tr>
+    </thead>
+  )
+}
+const FooterAction: React.FC = () => {
+  return (
+    <div className="flex justify-end items-center">
+      <NavLink to="../services" className=" bg-red-600 flex items-center hover:bg-red-700 text-white px-3 py-1 rounded-md m-5">
+        <FaUndoAlt /> Back
+      </NavLink>
+
+      <button type="submit"
+        className=" bg-blue-700 flex items-center hover:bg-blue-800 text-white px-3 py-1 rounded-md"
+      >                <FaRegSave />&nbsp;Save
+      </button>
+    </div>
   )
 }
