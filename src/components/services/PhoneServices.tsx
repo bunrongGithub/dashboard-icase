@@ -119,7 +119,6 @@ export const PhoneServices: React.FC = () => {
         </section>
     );
 };
-
 const PhoneServiceTableHead: React.FC = () => {
     const heads = [
         { name: "Phone Number", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
