@@ -6,6 +6,7 @@ import axios from 'axios';
 import { ColorsProps } from '../settings/colors/definition';
 import TeachnicianProps from '../teachnician/definition';
 import { NavLink } from 'react-router-dom';
+import { PaymentStatusProps } from '../settings/payment_status/definition';
 
 export const PhoneServiceCreate: React.FC = () => {
   const [itemDetail, setItemDetail] = useState<PhoneServicesProps>({
@@ -13,7 +14,8 @@ export const PhoneServiceCreate: React.FC = () => {
     accept_date: '',
     warrantyperoid: '',
     duration: '',
-    description: ''
+    description: '',
+    psId: null
   })
   const [items, setItems] = useState<PhoneServicesItemProps[]>([]);
   const [models, setModels] = useState<PhoneModelType[]>([]);
@@ -21,12 +23,24 @@ export const PhoneServiceCreate: React.FC = () => {
   const [teachnician, setTeachnician] = useState<TeachnicianProps[]>([]);
   const [validateMessage, setValidateMessage] = useState<string>('');
   const [validateItems, setValidateItems] = useState<string | any>('');
+  const [validateItemsLengthMessage,setValidateItemsLengthMessage] = useState<string>('')
+  const validateItemLength: number = items?.length;
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatusProps[]>([]);
+  const [validatePaymentStatus,setValidatePaymentStatus] = useState<string>('');
   useEffect(() => {
+    const getPaymentStatus = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/payment_status`);
+        setPaymentStatus(response.data);
+      } catch (error: any) {
+        console.log(error);
+      }
+    }
     const getPhoneModels = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/models`);
         setModels(response.data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error)
       }
     }
@@ -44,10 +58,11 @@ export const PhoneServiceCreate: React.FC = () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/teachnician`);
         setTeachnician(response.data);
-      } catch (error) {
+      } catch (error: any) {
         console.error(error);
       }
     };
+    getPaymentStatus();
     getColors();
     getPhoneModels();
     fetchTeachnician();
@@ -84,23 +99,33 @@ export const PhoneServiceCreate: React.FC = () => {
   }
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { phoneNumber, accept_date, duration, description, warrantyperoid } = itemDetail;
+    const { phoneNumber, accept_date, duration, description, warrantyperoid,psId } = itemDetail;
+    
     if (phoneNumber === '' || accept_date === '') {
       setValidateMessage("Phone number & accept date are require!")
       return;
     }
-    setValidateMessage('')
+    if(psId === 0 || psId === null || psId === ''){
+      setValidatePaymentStatus("Payment Status are require please select!")
+      return;
+    }
+    setValidatePaymentStatus("")
+    setValidateMessage('');
+    if(!validateItemLength){
+      setValidateItemsLengthMessage("Item must has a row!")
+      return;
+    }
+    setValidateItemsLengthMessage("")
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/service`, {
-        phoneNumber, accept_date, duration, description, warrantyperoid, items
+        phoneNumber, accept_date, duration, description, warrantyperoid , psId, items
       })
       if (response.status === 200) {
         setValidateItems("")
         console.log(response.data);
       }
     } catch (error: any) {
-      console.log(error?.response?.data?.message);
-
+      setValidateItems(error?.response?.data?.message)
     }
   }
   return (
@@ -171,7 +196,24 @@ export const PhoneServiceCreate: React.FC = () => {
                 onChange={handleItemDetailChange('description')}
               />
             </div>
-
+            <div className="flex flex-col">
+              <label htmlFor="paymentStatus" className="font-medium text-gray-800">Payment Status: <span className='text-red-800'>*</span></label>
+            {validatePaymentStatus && <p className='text-red-800 text-[12px]'>{validatePaymentStatus}</p>}
+              <select
+                className={`mt-1.5 p-[9px] border border-gray-300 rounded-md`}
+                onChange={handleItemDetailChange('psId')}
+                value={itemDetail?.psId || ''}
+              >
+                <option value="" >
+                  ---Select one---
+                </option>
+                {paymentStatus?.map((ps, psIndex) => (
+                  <option key={psIndex} value={ps.psId}>
+                    {ps.psName}
+                  </option>
+                ))}
+              </select>
+            </div>
           </section>
           <section className='mb-6'>
             <div className="flex items-center justify-between ">
@@ -185,8 +227,9 @@ export const PhoneServiceCreate: React.FC = () => {
               </button>
             </div>
             {validateItems && <p style={{ letterSpacing: "1.5px" }} className='text-red-800 font-medium mb-2'>{validateItems}</p>}
+            {validateItemsLengthMessage && <p className='text-rose-800 tracking-widest text-[20px]'>{validateItemsLengthMessage}</p>}
             <table className="min-w-full divide-y divide-gray-200">
-              <TableHeading/>
+              <TableHeading />
               <tbody className="bg-slate-50 shadow-sm">
                 {
                   items?.map((item, index) => (
@@ -278,18 +321,19 @@ export const PhoneServiceCreate: React.FC = () => {
 }
 const TableHeading: React.FC = () => {
   const tableHeading = [
-    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Model"},
-    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Color"},
-    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Password"},
-    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Price"},
-    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Responsible"},
-    {css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider",name:"Action"},
-  ] 
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Model" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Color" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Password" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Problem" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Price" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Responsible" },
+    { css: "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider", name: "Action" },
+  ]
   return (
     <thead className="bg-[#12263f] text-slate-100">
       <tr>
         {
-          tableHeading.map((item,index) => (
+          tableHeading.map((item, index) => (
             <th key={index} className={item.css}>{item.name}</th>
           ))
         }

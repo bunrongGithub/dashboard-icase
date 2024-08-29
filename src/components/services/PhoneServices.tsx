@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { FaCog, FaPlusCircle, FaPrint, FaFileAlt, FaFilter } from "react-icons/fa";
+import { FaCog, FaPlusCircle, FaFileAlt, FaFilter } from "react-icons/fa";
 import { PhoneServicesProps } from "./definition";
 import { fetchData } from "./data";
 import PhoneServiceItems from "./PhoneServiceItems";
@@ -40,6 +40,7 @@ export const PhoneServices: React.FC = () => {
         setFiltering(filterLiveItems)
         setSearch(liveSearch)
     }
+    // console.log(data)
     return (
         <section className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
             <div className="flex items-center justify-between bg-gray-50 border-b border-gray-200 mb-4">
