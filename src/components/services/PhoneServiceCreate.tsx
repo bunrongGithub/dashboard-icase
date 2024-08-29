@@ -8,7 +8,6 @@ import TeachnicianProps from '../teachnician/definition';
 import { NavLink } from 'react-router-dom';
 import { PaymentStatusProps } from '../settings/payment_status/definition';
 import AlertBox from './AlertBox';
-
 export const PhoneServiceCreate: React.FC = () => {
   const [itemDetail, setItemDetail] = useState<PhoneServicesProps>({
     phoneNumber: '',
