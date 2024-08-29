@@ -30,7 +30,7 @@ export interface PhoneServicesItemProps{
     itemId?:numberOrNull;
     moId?:number | null;
     password?:StringOrNull;
-    price?:StringOrNull;
+    price?:string | number;
     problem?:StringOrNull;
     qyt?:numberOrNull;
     repId?:string|undefined;
@@ -38,7 +38,7 @@ export interface PhoneServicesItemProps{
     statusName?:StringOrNull;
     statusId?:numberOrNull;
     stausId?:number | null;
-    techId?:number | null | string | undefined | any;
+    techId?:number | null | string;
     techName?:StringOrNull;
     psId?: any
     psName?:StringOrNull;
