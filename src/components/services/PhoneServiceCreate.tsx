@@ -93,7 +93,6 @@ export const PhoneServiceCreate: React.FC = () => {
       }
     } catch (error: any) {
      console.log(error?.response?.data?.message);
-      
     }
   }
   return (
