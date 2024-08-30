@@ -5,15 +5,25 @@ import { fetchData } from "./data";
 import PhoneServiceItems from "./PhoneServiceItems";
 import { LoadingSkeleton } from "../skeleton/TableLoading"
 import { NavLink } from "react-router-dom";
+import Pagination from "./Paginations";
 const widths = [50, 150, 150, 150, 150, 150, 150, 150, 150, 40];
 
 export const PhoneServices: React.FC = () => {
     const [data, setData] = useState<PhoneServicesProps[]>([]);
-    const [search,setSearch] = useState<string>('');
-    const [filtering,setFiltering] = useState<PhoneServicesProps[]>([])
+    const [search, setSearch] = useState<string>('');
+    const [filtering, setFiltering] = useState<PhoneServicesProps[]>([])
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [loading, setIsLoading] = useState(true);
+    const [currentPage,setCurrentPage] = useState(1);
+    const itemsPerpage = 10;
+    const startIndex = (currentPage - 1) * itemsPerpage;
+    const endIndex = startIndex + itemsPerpage;
+    const paginatedData: PhoneServicesProps[] = filtering?.slice(startIndex , endIndex);
+    const totalPages: number = Math.ceil((filtering?.length || 0) / itemsPerpage)
+    const handlePageChange = ( page: number) => {
+        setCurrentPage(page)
+    }
     useEffect(() => {
         const fetchDataFormService = async () => {
             try {
@@ -35,8 +45,8 @@ export const PhoneServices: React.FC = () => {
         // Your filtering logic here
     };
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        const liveSearch:string = e.target.value;
-        const filterLiveItems:PhoneServicesProps[] = data.filter(item => item.phoneNumber?.includes(liveSearch))
+        const liveSearch: string = e.target.value;
+        const filterLiveItems: PhoneServicesProps[] = data.filter(item => item.phoneNumber?.includes(liveSearch))
         setFiltering(filterLiveItems)
         setSearch(liveSearch)
     }
@@ -90,7 +100,7 @@ export const PhoneServices: React.FC = () => {
                             </tbody>
                         ) : (
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {filtering?.slice(0,10).map((item, index) => (
+                                {paginatedData?.map((item, index) => (
                                     <PhoneServiceItems key={index}
                                         deviceNumbers={item.deviceNumbers}
                                         phoneNumber={item.phoneNumber}
@@ -111,6 +121,7 @@ export const PhoneServices: React.FC = () => {
                         )
                     }
                 </table>
+                <Pagination onPageChange={handlePageChange} currentPage={currentPage} totalPages={totalPages}/>
             </div>
         </section>
     );
