@@ -18,7 +18,7 @@ const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{duration}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{warrantyperoid}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    <span className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${psName === 'done'
+                    <span className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${psName === 'paid'
                         ? 'bg-green-100 text-green-800'
                         : psName?.toLowerCase() === 'pending'
                             ? 'bg-red-100 text-red-800'

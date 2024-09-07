@@ -48,9 +48,9 @@ const PhoneServiceView: React.FC = () => {
                         <div className="font-medium text-gray-800">
                             <strong>Payment Status:</strong>
 
-                            <span className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${itemDetails?.repair?.psName === 'done'
+                            <span className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${itemDetails?.repair?.psName === 'paid'
                                 ? 'bg-green-100 text-green-800'
-                                : itemDetails?.repair?.psName?.toLowerCase() === 'pending'
+                                : itemDetails?.repair?.psName?.toLowerCase() === 'unpaid'
                                     ? 'bg-red-100 text-red-800'
                                     : 'bg-yellow-100 text-yellow-800'
                                 }`}
@@ -104,8 +104,8 @@ const PhoneServiceView: React.FC = () => {
                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Problem</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Responsible</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Price</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status Paid</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status Fixed</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status Paid</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
