@@ -41,12 +41,9 @@ const Colors: React.FC = () => {
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/colors`, {
           colorName: valueColor
         });
-
         if (response.status === 200) {
           const newColor = response.data.color;
-          console.log(newColor);
-
-          setData(prev => [...prev, newColor]);
+          setData([...data , newColor]);
         }
       } catch (err) {
         console.error('Error saving color:', err);
