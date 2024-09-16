@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaCog, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
+import { FaCog } from "react-icons/fa";
 import { LoadingSkeleton } from "../skeleton/TableLoading";
 import TeachnicianProps from "./definition"
 const widths = [50, 150, 150];
-
+import AddBtn from "../utils/assets/atoms/AddBtn";
+import { utils } from "../utils";
 
 export const Teachnicain: React.FC = () => {
     const [teachnician, setTeachnician] = useState<TeachnicianProps[]>([]);
@@ -27,9 +28,7 @@ export const Teachnicain: React.FC = () => {
     return (
         <section className="overflow-x-auto bg-white shadow-md rounded-lg">
             <div className="w-full p-2 flex items-center justify-end">
-                <button className="flex items-center border px-3 py-1 bg-blue-700 text-white rounded-lg">
-                    <FaPlusCircle /> Add New
-                </button>
+            <AddBtn target={false}/>
             </div>
             <table className="min-w-full divide-y divide-gray-200">
                 <TableHeading/>
@@ -48,9 +47,9 @@ export const Teachnicain: React.FC = () => {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.salary}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 ">{teach.contact}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
-                                    <button><FaTrash className="text-red-700 size-4" /></button>
+                                    <button><utils.Trash/></button>
                                     &nbsp;&nbsp;
-                                    <button className="flex items-center"><FaEdit className="text-blue-600 size-4" /></button>
+                                    <button className="flex items-center"><utils.EditeIcon/></button>
                                 </td>
                             </tr>
                         )))

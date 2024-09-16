@@ -1,20 +1,27 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { FaCog, FaPlusCircle, FaFileAlt, FaFilter } from "react-icons/fa";
+import { FaCog, FaFileAlt, FaFilter } from "react-icons/fa";
 import { PhoneServicesProps } from "./definition";
 import { fetchData } from "./data";
 import PhoneServiceItems from "./PhoneServiceItems";
 import { LoadingSkeleton } from "../skeleton/TableLoading"
-import { NavLink } from "react-router-dom";
+import AddBtn from "../utils/assets/atoms/AddBtn";
 import Pagination from "./Paginations";
+/** for skeleton effect */
 const widths = [50, 150, 150, 150, 150, 150, 150, 150, 150, 40];
 
 export const PhoneServices: React.FC = () => {
+    /** All data from api about phone services */
     const [data, setData] = useState<PhoneServicesProps[]>([]);
+    /** search state */
     const [search, setSearch] = useState<string>('');
-    const [filtering, setFiltering] = useState<PhoneServicesProps[]>([])
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    /** filtering data for search */
+    const [filtering, setFiltering] = useState<PhoneServicesProps[]>([]);
+    /** this function have not yet api, this for pagination filter */
+    const [startDate, setStartDate] = useState<string | [] | any>('');
+    const [endDate, setEndDate] = useState<string | [] | any>('');
+    /** for skeleton loading if the network slow */
     const [loading, setIsLoading] = useState(true);
+    /** pagination table */
     const [currentPage,setCurrentPage] = useState(1);
     const itemsPerpage = 10;
     const startIndex = (currentPage - 1) * itemsPerpage;
@@ -82,9 +89,7 @@ export const PhoneServices: React.FC = () => {
                     </button>
                 </div>
                 <div className="flex items-center space-x-4">
-                    <NavLink to="../services/create" className="flex items-center border px-3 py-1 bg-blue-700 text-white rounded-lg">
-                        <FaPlusCircle className="mr-1" /> Add New
-                    </NavLink>
+                    <AddBtn link_to_page="../services/create"/>
                     <button className="flex items-center border px-3 py-1 bg-gray-600 text-white rounded-lg">
                         <FaFileAlt className="mr-1" /> Report
                     </button>

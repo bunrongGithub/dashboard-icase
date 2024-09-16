@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaEdit, FaEye, FaPrint, FaTrash } from 'react-icons/fa'
+import { utils } from '../utils'
 import { NavLink } from 'react-router-dom'
 import { PhoneServicesProps } from './definition'
 const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
@@ -34,11 +34,11 @@ const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{created_at}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{updated_at}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center space-x-2">
-                    <NavLink to={`../services/update/${repId}`} className="text-blue-600"><FaEdit /></NavLink>
-                    <NavLink to={`../services/view/${repId}`} className="text-blue-600"><FaEye /></NavLink>
+                    <NavLink to={`../services/update/${repId}`}><utils.EditeIcon size='size-5' /></NavLink>
+                    <NavLink to={`../services/view/${repId}`}><utils.Eye size='size-5' /></NavLink>
                     
-                    <button className="text-red-700"><FaTrash /></button>
-                    <NavLink  to={`../services/print/${repId}`} className="text-green-600"><FaPrint /></NavLink>
+                    <button className="text-red-700"><utils.Trash/></button>
+                    <NavLink  to={`../services/print/${repId}`}><utils.Print/></NavLink>
                 </td>
             </tr>
         </>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { FaEye, FaPrint, FaUndo } from "react-icons/fa";
+import { FaEye, FaUndo } from "react-icons/fa";
 import { PhoneServicesItemProps, ViewPhoneServiceProps } from "./definition";
 import { NavLink, useParams } from "react-router-dom";
 import axios from "axios";
-
+import { utils } from "../utils";
 const PhoneServiceView: React.FC = () => {
     const [itemDetails, setItemDetails] = useState<ViewPhoneServiceProps>();
     const [phoneItems, setPhoneItems] = useState<PhoneServicesItemProps[]>([]);
@@ -144,8 +144,8 @@ const PhoneServiceView: React.FC = () => {
                     </table>
                 </div>
                 <div className="flex justify-end mt-6 border-t border-gray-200 pt-4">
-                    <NavLink to={`../services/print/${id}`} className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition mx-2 flex items-center">
-                       <FaPrint/> Print
+                    <NavLink className='flex mx-3 items-center' to={`../services/print/${id}`} >
+                            <utils.Print size={'size-9'}/>
                     </NavLink>
                     <NavLink to="../services" className="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition flex items-center ">
                        <FaUndo/> Back

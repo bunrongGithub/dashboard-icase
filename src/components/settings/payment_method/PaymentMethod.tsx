@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FaCog, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
+import { FaCog, FaEdit, FaPlusCircle} from "react-icons/fa";
 import { LoadingSkeleton } from "../../skeleton/TableLoading";
 import { PaymentMethodProps } from "./definition";
 import { utils } from "../../utils";
@@ -94,7 +94,7 @@ export const PaymentMethod: React.FC = () => {
                                             setShowModalDelete(!showModalDelete)
                                         }}
                                     >
-                                        <FaTrash className="text-red-700 size-4"/>
+                                        <utils.Trash/>
                                     </button>
                                     &nbsp;&nbsp;
                                     <button className="flex items-center"><FaEdit className="text-blue-600 size-4" /></button>
