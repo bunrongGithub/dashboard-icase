@@ -1,4 +1,4 @@
 export type PhoneModelType = {
-    moId: string | number;
+    moId: number;
     moName: string;
 }

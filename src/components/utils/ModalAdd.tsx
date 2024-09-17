@@ -9,7 +9,7 @@ interface ModalAppProps {
 }
 
 const ModalAdd: React.FC<ModalAppProps> = (
-    { isOpen, onClose, onSave , modalHeading,modalTitle}
+    { isOpen, onClose, onSave, modalHeading, modalTitle }
 ) => {
     const [value, setValue] = useState<string>('')
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +22,7 @@ const ModalAdd: React.FC<ModalAppProps> = (
     };
     if (!isOpen) return null;
     return <>
-        return (
+
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-75">
             <div className="bg-[#12263f] rounded-lg shadow-lg p-4 w-96 sm:w-96 lg:w-1/2 xl:w-1/3"
             >
@@ -50,7 +50,7 @@ const ModalAdd: React.FC<ModalAppProps> = (
                 </div>
             </div>
         </div>
-        );
+
     </>
 }
 export default ModalAdd;

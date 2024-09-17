@@ -8,6 +8,7 @@ type AddButtonProps = {
     variant?: Variant;
     title?: string;
     link_to_page?:string;
+    onModalShow?: () => void;
 };
 
 const buttonSize: Record<Variant, string> = {
@@ -16,7 +17,7 @@ const buttonSize: Record<Variant, string> = {
     md: "size-6",
 };
 
-const AddBtn: React.FC<AddButtonProps> = ({ target = true, variant = "sm" ,title = "Add New",link_to_page}) => {
+const AddBtn: React.FC<AddButtonProps> = ({ target = true, variant = "sm" ,title = "Add New",link_to_page,onModalShow}) => {
     const iconSizeClass = buttonSize[variant];
 
     return (
@@ -30,6 +31,7 @@ const AddBtn: React.FC<AddButtonProps> = ({ target = true, variant = "sm" ,title
                 </NavLink>
             ) : (
                 <button
+                    onClick={onModalShow}
                     className="flex items-center border px-3 py-1 bg-blue-700 text-white rounded-lg"
                 >
                     <FaPlusCircle className={`mr-1 ${iconSizeClass}`} /> {title}
