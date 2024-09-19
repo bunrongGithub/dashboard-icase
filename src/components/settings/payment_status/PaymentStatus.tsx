@@ -1,13 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FaCog, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
+import { FaCog, FaEdit, FaTrash } from "react-icons/fa";
 import { LoadingSkeleton } from "../../skeleton/TableLoading";
 import { PaymentStatusProps } from "./definition";
+import AddBtn from "../../utils/assets/atoms/AddBtn";
+import { utils } from "../../utils";
 const widths = [50, 150, 150];
 export const PaymentStatus: React.FC = () => {
     const [psStatus, setPsStatus] = useState<PaymentStatusProps[]>([]);
     const [error, setError] = useState<any>();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
+    /**Modal state */
+    const [showAddBox,setShowAddBox] = useState<boolean>(false)
     useEffect(() => {
         const fetchStatus = async () => {
             try {
@@ -21,12 +25,35 @@ export const PaymentStatus: React.FC = () => {
         };
         fetchStatus();
     }, []);
+    const handleToggleModal = () => {
+        setShowAddBox(prev => !prev);
+    }
+    async function handleSave(psName: string){
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/payment_status`,{
+                psName: psName
+            });
+            if(response.status === 201){
+                const data = response.data?.psName
+                return setPsStatus(prev => [...prev,data])
+            }
+        } catch (error: any) {
+            throw new Error(error)
+        }
+    }
     return (
         <section className="overflow-x-auto bg-white shadow-md rounded-lg">
+            {
+                showAddBox && <utils.ModalAdd 
+                isOpen={showAddBox}
+                onSave={handleSave}
+                onClose={handleToggleModal}
+                modalHeading="Add New Payment Status"
+                modalTitle="Enter payment status"
+                />
+            }
             <div className="w-full p-2 flex items-center justify-end">
-                <button className="flex items-center border px-3 py-1 bg-blue-700 text-white rounded-lg">
-                    <FaPlusCircle /> Add New
-                </button>
+                <AddBtn onModalShow={handleToggleModal} target={false}/>
             </div>
             <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-[#12263f] text-white">
@@ -48,9 +75,9 @@ export const PaymentStatus: React.FC = () => {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{status.psId}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{status.psName}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
-                                    <button><FaTrash className="text-red-700 size-4" /></button>
+                                    <button><utils.Trash/></button>
                                     &nbsp;&nbsp;
-                                    <button className="flex items-center"><FaEdit className="text-blue-600 size-4" /></button>
+                                    <button className="flex items-center"><utils.EditeIcon/></button>
                                 </td>
                             </tr>
                         )))

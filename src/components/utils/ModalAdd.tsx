@@ -16,9 +16,13 @@ const ModalAdd: React.FC<ModalAppProps> = (
         setValue(event.target.value);
     };
     const handleSave = async () => {
-        await onSave(value);
-        setValue("");
-        onClose();
+        try {
+            await onSave(value);
+            setValue("");
+            onClose();
+        } catch (error: any) {
+            throw new Error(error)
+        }
     };
     if (!isOpen) return null;
     return <>

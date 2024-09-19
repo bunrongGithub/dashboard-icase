@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useLocation, NavLink } from 'react-router-dom';
 import {
   FaCogs,
   FaClock,
@@ -16,7 +18,6 @@ import {
   FaMobileScreenButton,
   FaScrewdriverWrench,
 } from 'react-icons/fa6';
-import { NavLink } from 'react-router-dom';
 
 interface AsideMenuProps {
   role: string;
@@ -51,19 +52,23 @@ const settingsItems: MenuItem[] = [
 ];
 
 const AsideMenu: React.FC<AsideMenuProps> = ({
-  sidebarOpen = false,
+  sidebarOpen,
   setSidebarOpen,
   toggleSettings,
   isSettingsOpen,
   username,
   role,
 }) => {
+  const location = useLocation();
+  const endUrl = location.pathname.split('/').pop() || ''; // Get last part of the URL
+
+  const active = 'bg-[#01182b]';
+
   return (
     <aside
       id='aside_hidden'
-      className={`fixed top-0 left-0 w-60 bg-[#12263f] text-white min-h-screen flex flex-col transform ${
-        sidebarOpen ? 'translate-x-0 p-2' : '-translate-x-60'
-      } md:relative md:translate-x-0 transition-transform duration-300`}
+      className={`fixed top-0 left-0 w-60 bg-[#12263f] text-white min-h-screen flex flex-col transform ${sidebarOpen ? 'translate-x-0 p-2' : '-translate-x-60'
+        } md:relative md:translate-x-0 transition-transform duration-300`}
     >
       <div className="flex items-center justify-between p-4 border-b border-gray-700 md:hidden">
         <h1 className="text-xl font-bold">Hello {username}</h1>
@@ -80,8 +85,8 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
             {role.toUpperCase()}{' '}
             <span className="font-light"> {username.toUpperCase()}</span>
           </h1>
-          {menuItems.map((item) => (
-            <li key={item.path} className="hover:bg-gray-700 transition-colors">
+          {menuItems.map((item, index) => (
+            <li key={index} className={`${item.path === endUrl ? active : ""} hover:bg-[#01182b] transition-colors`}>
               <NavLink
                 to={item.path}
                 className="flex items-center p-4 text-sm font-medium"
@@ -101,15 +106,14 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
               {isSettingsOpen ? <FaArrowCircleDown /> : <FaArrowCircleRight />}
             </button>
             <ul
-              className={`w-full mt-1 bg-[#0d1f36] transition-transform duration-700 overflow-hidden ${
-                isSettingsOpen ? 'max-h-96 p-3' : 'max-h-0'
-              }`}
+              className={`w-full mt-1 bg-[#0d1f36] transition-transform duration-700 overflow-hidden ${isSettingsOpen ? 'max-h-96 p-3' : 'max-h-0'
+                }`}
             >
               {isSettingsOpen &&
                 settingsItems.map((item) => (
                   <li
                     key={item.path}
-                    className="hover:bg-gray-300 bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500"
+                    className="hover:bg-[#e8e9e9] bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500"
                   >
                     <NavLink
                       to={item.path}
