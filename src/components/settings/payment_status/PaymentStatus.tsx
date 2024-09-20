@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FaCog, FaEdit, FaTrash } from "react-icons/fa";
+import { FaCog} from "react-icons/fa";
 import { LoadingSkeleton } from "../../skeleton/TableLoading";
 import { PaymentStatusProps } from "./definition";
 import AddBtn from "../../utils/assets/atoms/AddBtn";
@@ -11,7 +11,9 @@ export const PaymentStatus: React.FC = () => {
     const [error, setError] = useState<any>();
     const [loading, setLoading] = useState<boolean>(true);
     /**Modal state */
-    const [showAddBox,setShowAddBox] = useState<boolean>(false)
+    const [showAddBox,setShowAddBox] = useState<boolean>(false);
+    const [selectedId,setSelectedId] = useState<number | undefined>(undefined);
+    const [showDeleteBox,setShowDeleteBox] = useState<boolean>(false);
     useEffect(() => {
         const fetchStatus = async () => {
             try {
@@ -39,6 +41,13 @@ export const PaymentStatus: React.FC = () => {
             }
         } catch (error: any) {
             throw new Error(error)
+        }
+    }
+    const handleDelete = (id: number | undefined):void => {
+
+        if(id){
+            setPsStatus(prev => prev.filter(item => item.psId !== id))
+            setSelectedId(undefined)
         }
     }
     return (
@@ -70,12 +79,19 @@ export const PaymentStatus: React.FC = () => {
                     {loading ? (
                         <LoadingSkeleton number={10} widths={widths} />
                     ) : (
-                        psStatus.map(status => (
-                            <tr key={status.psId} className="hover:bg-gray-100">
+                        psStatus.map((status,index) => (
+                            <tr key={index} className="hover:bg-gray-100">
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{status.psId}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{status.psName}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
-                                    <button><utils.Trash/></button>
+                                    <button onClick={
+                                        () => {
+                                            setSelectedId(status.psId);
+                                            setShowDeleteBox(!showDeleteBox);
+                                            }
+                                        }>
+                                        <utils.Trash/>
+                                    </button>
                                     &nbsp;&nbsp;
                                     <button className="flex items-center"><utils.EditeIcon/></button>
                                 </td>
@@ -84,6 +100,15 @@ export const PaymentStatus: React.FC = () => {
                     }
                 </tbody>
             </table>
+            {
+                showDeleteBox && <utils.ModalDelete
+                    isShowBox={showDeleteBox}
+                    selectedId={selectedId}
+                    onDelete={handleDelete}
+                    onClose={()=>setShowDeleteBox(!showDeleteBox)}
+                    apiURL={`${import.meta.env.VITE_API_URL}/api/payment_status/${selectedId}`}
+                />
+            }
         </section>
     );
 };

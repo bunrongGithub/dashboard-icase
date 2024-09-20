@@ -1,4 +1,4 @@
 export type PaymentStatusProps = {
-    psId: string | number;
-    psName: string;
+    psId?: number;
+    psName?: string;
 }

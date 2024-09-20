@@ -22,8 +22,7 @@ const ModalDelete:React.FC<ModalDeleteProps> = (
     async function handleDelete(uri: string): Promise<void>{
         try {
             const response = await axios.delete(`${uri}`);
-            console.log(response)
-            if(response.status === 204){
+            if(response.status === 204){    
                 onDelete(selectedId)
                 setErrorMsg("has been delete success!");  
                 onClose();
