@@ -29,7 +29,7 @@ export const PhoneServiceCreate: React.FC = () => {
   const [validatePaymentStatus, setValidatePaymentStatus] = useState<string>('');
   const [isResponding, setIsResponding] = useState<boolean>(false);
   const [respondingInsertId, setRespondingInsertId] = useState<number | undefined>();
-  const [respondingMessage,setRespondingMessage] = useState<string>('')
+  const [respondingMessage, setRespondingMessage] = useState<string>('')
   useEffect(() => {
     const getPaymentStatus = async () => {
       try {
@@ -137,7 +137,7 @@ export const PhoneServiceCreate: React.FC = () => {
       <article className='bg-white rounded-lg w-full p-6'>
         {
           respondingMessage &&
-          <AlertBox message={respondingMessage} setMessage={() => setRespondingMessage('')}/>
+          <AlertBox message={respondingMessage} setMessage={() => setRespondingMessage('')} />
         }
         <form onSubmit={handleSubmit} action="">
           {validateMessage && <p style={{ letterSpacing: "1.5px" }} className='text-rose-800 font-medium'>{validateMessage}</p>}
@@ -320,7 +320,7 @@ export const PhoneServiceCreate: React.FC = () => {
                 }
               </tbody>
             </table>
-        <FooterAction netWorkResponding = {isResponding} selectedId={respondingInsertId} />
+            <FooterAction netWorkResponding={isResponding} selectedId={respondingInsertId} />
           </section>
         </form>
       </article>

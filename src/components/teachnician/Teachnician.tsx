@@ -28,7 +28,7 @@ export const Teachnicain: React.FC = () => {
     return (
         <section className="overflow-x-auto bg-white shadow-md rounded-lg">
             <div className="w-full p-2 flex items-center justify-end">
-            <AddBtn target={false}/>
+            <AddBtn link_to_page="../teachnician/create"/>
             </div>
             <table className="min-w-full divide-y divide-gray-200">
                 <TableHeading/>
@@ -39,7 +39,7 @@ export const Teachnicain: React.FC = () => {
                     ) : (
                         teachnician.map((teach,index) => (
                             <tr key={index} className="hover:bg-gray-100">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.techId}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.techName}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.skills}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.responsible}</td>
