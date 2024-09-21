@@ -16,6 +16,8 @@ import { PhoneServiceUpdate } from "./components/services/PhoneSeviceUpdate"
 import { Teachnicain } from "./components/teachnician/Teachnician"
 import {PhoneServicePrint} from "./components/services/PhhoneServicePrint"
 import { PhoneServiceCreate } from "./components/services/PhoneServiceCreate"
+import _404 from "./components/utils/response-page/_404";
+import _500 from "./components/utils/response-page/_500"
 export const App: React.FC = () => {
   return (
     <Router>
@@ -36,6 +38,7 @@ export const App: React.FC = () => {
             <Route path="services/view/:id" element={<PhoneServiceView/>}/>
             <Route path="services/update/:id" element={<PhoneServiceUpdate/>}/>
             <Route path="services/print/:id" element={<PhoneServicePrint/>}/>
+            <Route path="_500" element={<_500/>}/>
           </Route>
         </Routes>
       </AuthProvider>

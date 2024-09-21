@@ -4,6 +4,7 @@ import { FaCog, FaEdit, FaPlusCircle} from "react-icons/fa";
 import { LoadingSkeleton } from "../../skeleton/TableLoading";
 import { PaymentMethodProps } from "./definition";
 import { utils } from "../../utils";
+import { useNavigate } from "react-router-dom";
 const widths = [50, 150, 150];
 export const PaymentMethod: React.FC = () => {
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethodProps[]>([]);
@@ -11,6 +12,7 @@ export const PaymentMethod: React.FC = () => {
     const [loading, setLoading] = useState(true);
     /** Handle with modal */
     const [show,setShow] = useState<boolean>(false);
+    const navigate = useNavigate();
     /** State handle with delete modal */
     const [selectedId,setSelectedId] = useState<number | undefined>(undefined);
     const [showModalDelete,setShowModalDelete] = useState<boolean>(false);
@@ -19,15 +21,17 @@ export const PaymentMethod: React.FC = () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/payment_method`);
                 setPaymentMethod(response.data);
-            } catch (error: any) {
-                console.log(error);
+                
+            } catch (error: any) { 
+                if(error.response.status === 404)
+                    navigate("../_500")               
                 setError(error);
             } finally {
                 setLoading(false);
             }
         };
         fetchStatus();
-    }, []);
+    }, [navigate]);
     const handleToggleModal = () => {
         setShow(prev => !prev)
     }

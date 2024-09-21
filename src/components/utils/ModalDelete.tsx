@@ -41,7 +41,7 @@ const ModalDelete:React.FC<ModalDeleteProps> = (
         <FaExclamation className="text-red-600 text-2xl mr-3" />
         <div>
           <h2 className="text-lg font-semibold">Confirm Deletion</h2>
-          <p className="text-sm font-normal">{errorMsg === '' ? "Are you sure you want to delete this color? This action cannot be undone.":<span className='text-red-600 tracking-wider text-[15px]'>{errorMsg}</span> }</p>
+          <p className="text-sm font-normal">{errorMsg === '' ? "Are you sure you want to delete this item? This action cannot be undone.":<span className='text-red-600 tracking-wider text-[15px]'>{errorMsg}</span> }</p>
         </div>
       </div>
       <div className="mt-4 flex justify-end space-x-4">
