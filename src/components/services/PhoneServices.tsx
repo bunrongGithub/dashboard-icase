@@ -8,7 +8,7 @@ import AddBtn from "../utils/assets/atoms/AddBtn";
 import Pagination from "./Paginations";
 /** for skeleton effect */
 const widths = [50, 150, 150, 150, 150, 150, 150, 150, 150, 40];
-
+import { useNavigate } from "react-router-dom";
 export const PhoneServices: React.FC = () => {
     /** All data from api about phone services */
     const [data, setData] = useState<PhoneServicesProps[]>([]);
@@ -27,7 +27,8 @@ export const PhoneServices: React.FC = () => {
     const startIndex = (currentPage - 1) * itemsPerpage;
     const endIndex = startIndex + itemsPerpage;
     const paginatedData: PhoneServicesProps[] = filtering?.slice(startIndex , endIndex);
-    const totalPages: number = Math.ceil((filtering?.length || 0) / itemsPerpage)
+    const totalPages: number = Math.ceil((filtering?.length || 0) / itemsPerpage);
+    const navigate = useNavigate();
     const handlePageChange = ( page: number) => {
         setCurrentPage(page)
     }
@@ -39,10 +40,15 @@ export const PhoneServices: React.FC = () => {
                     setData(res);
                     setFiltering(res)
                     setIsLoading(false)
-                }).catch(er => console.error(er));
-            } catch (error) {
-                console.error(error)
-                setIsLoading(true)
+                }).catch(er => {
+                    if(er.response.status === 404){
+                        setIsLoading(false);
+                    }else{
+                        navigate("../_500")
+                    }
+                });
+            } catch (error: any) {
+                setIsLoading(true);
             }
         }
         fetchDataFormService();
@@ -105,7 +111,11 @@ export const PhoneServices: React.FC = () => {
                             </tbody>
                         ) : (
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {paginatedData?.map((item, index) => (
+                                
+                                {
+                                
+                                data.length > 0 ? 
+                                paginatedData?.map((item, index) => (
                                     <PhoneServiceItems key={index}
                                         deviceNumbers={item.deviceNumbers}
                                         phoneNumber={item.phoneNumber}
@@ -121,7 +131,7 @@ export const PhoneServices: React.FC = () => {
                                         payment_method_id={item.payment_method_id}
                                         description={item.description}
                                     />
-                                ))}
+                                )): <span className="text-red-700 font-medium text-[18px] my-10">Data not found</span>}
                             </tbody>
                         )
                     }

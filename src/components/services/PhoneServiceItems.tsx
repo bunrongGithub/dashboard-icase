@@ -29,7 +29,7 @@ const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
                     </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{deviceNumbers}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{amount}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{amount}$</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{description}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{created_at}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{updated_at}</td>

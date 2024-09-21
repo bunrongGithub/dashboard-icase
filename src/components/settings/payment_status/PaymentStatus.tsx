@@ -19,9 +19,12 @@ export const PaymentStatus: React.FC = () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/payment_status`);
                 setPsStatus(response.data);
-            } catch (error) {
-                setError(error);
+            } catch (error: any) {
+                console.log(error);
+                
+                setError(error.response.data.message);
             } finally {
+                //console.log("errr")
                 setLoading(false);
             }
         };
@@ -75,7 +78,7 @@ export const PaymentStatus: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                    {error && <tr><td colSpan={3} className="text-red-700 text-center">{error.message}</td></tr>}
+                    {error && <tr><td colSpan={3} className="text-red-700 text-center mt-10">{error.message}</td></tr>}
                     {loading ? (
                         <LoadingSkeleton number={10} widths={widths} />
                     ) : (

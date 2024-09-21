@@ -39,6 +39,7 @@ export const App: React.FC = () => {
             <Route path="services/update/:id" element={<PhoneServiceUpdate/>}/>
             <Route path="services/print/:id" element={<PhoneServicePrint/>}/>
             <Route path="_500" element={<_500/>}/>
+            <Route path="*" element={<_404/>}/>
           </Route>
         </Routes>
       </AuthProvider>
