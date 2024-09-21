@@ -84,7 +84,7 @@ export const PaymentStatus: React.FC = () => {
                     ) : (
                         psStatus.map((status,index) => (
                             <tr key={index} className="hover:bg-gray-100">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{status.psId}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{status.psName}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
                                     <button onClick={
