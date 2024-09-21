@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useLocation, NavLink } from 'react-router-dom';
 import {
   FaCogs,
@@ -61,9 +60,10 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
 }) => {
   const location = useLocation();
   const endUrl = location.pathname.split('/').pop() || ''; // Get last part of the URL
-
+  console.log(endUrl);
+  
   const active = 'bg-[#01182b]';
-
+  const activeSetting = 'bg-[#b7b7b7]';
   return (
     <aside
       id='aside_hidden'
@@ -110,10 +110,10 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
                 }`}
             >
               {isSettingsOpen &&
-                settingsItems.map((item) => (
+                settingsItems.map((item,index) => (
                   <li
-                    key={item.path}
-                    className="hover:bg-[#e8e9e9] bg-[#FFfFFF] rounded-md m-1 transition-colors duration-500"
+                    key={index}
+                    className={` ${item.path === endUrl ? activeSetting :"bg-[#FFfFFF] "} hover:bg-[#e8e9e9] rounded-md m-1 transition-colors duration-500`}
                   >
                     <NavLink
                       to={item.path}
@@ -133,9 +133,9 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
         </ul>
       </nav>
       <div className="py-4 border-t border-gray-700 text-center">
-        <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">
+        <a href='/' className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">
           Logout
-        </button>
+        </a>
       </div>
     </aside>
   );
