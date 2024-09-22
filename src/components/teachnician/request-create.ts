@@ -4,6 +4,5 @@ type TeachiciainRequestCreate = {
     skills?: string,
     contact?: string,
     responsible?: string,
-    position?:string
 }
 export default TeachiciainRequestCreate;
