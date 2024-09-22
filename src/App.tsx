@@ -19,6 +19,7 @@ import { PhoneServiceCreate } from "./components/services/PhoneServiceCreate"
 import _404 from "./components/utils/response-page/_404";
 import _500 from "./components/utils/response-page/_500"
 import CreateTeachnician from "./components/teachnician/CreateTeachnician"
+import UpdateTeachnician from "./components/teachnician/UpdateTeachnician"
 export const App: React.FC = () => {
   return (
     <Router>
@@ -34,6 +35,7 @@ export const App: React.FC = () => {
             <Route path="users-role" element={<UserRole/>}/>
             <Route path="users" element={<Users/>}/>
             <Route path="teachnician" element={<Teachnicain/>}/>
+            <Route path="teachnician/update/:id" element={<UpdateTeachnician/>}/>
             <Route path="teachnician/create" element={<CreateTeachnician/>}/>
             <Route path="services" element={<PhoneServices/>}/>
             <Route path="services/create" element={<PhoneServiceCreate/>}/>

@@ -2,12 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaCog, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
 import { LoadingSkeleton } from "../../skeleton/TableLoading";
+import UserRoleType from "./types/user-role";
 const widths = [50, 150, 150];
 
-type UserRoleType = {
-    roleId: string | number;
-    roleName: string;
-}
+
 export const UserRole: React.FC = () => {
     const [userRole, setUserRole] = useState<UserRoleType[]>([]);
     const [error, setError] = useState<any>();

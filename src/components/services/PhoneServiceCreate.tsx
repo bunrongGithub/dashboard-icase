@@ -4,7 +4,7 @@ import { PhoneServicesItemProps, PhoneServicesProps } from './definition';
 import { PhoneModelType } from '../settings/phone_model/definition';
 import axios from 'axios';
 import { ColorsProps } from '../settings/colors/definition';
-import TeachnicianProps from '../teachnician/definition';
+import TeachnicianProps from '../teachnician/types/definition';
 import { NavLink } from 'react-router-dom';
 import { PaymentStatusProps } from '../settings/payment_status/definition';
 import AlertBox from './AlertBox';

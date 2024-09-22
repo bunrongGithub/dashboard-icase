@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import TeachiciainRequestCreate from './request-create';
-import InputField from './InputField';
+import TeachiciainRequestCreate from './types/request-create';
+import InputField from '../utils/InputField';
 import { NavLink } from 'react-router-dom';
 import { FaRegSave, FaUndoAlt } from 'react-icons/fa';
 import axios from 'axios';
@@ -66,7 +66,7 @@ const CreateTeachnician: React.FC = () => {
                             <InputField label="Contact:" value={teachnician.contact} onChange={handleChange('contact')} name='contact' type="text" placeholder='097...' />
                         </section>
                         <div className='flex justify-end items-center pr-4'>
-                            <NavLink to="../services" className="bg-red-600 flex items-center hover:bg-red-700 text-white px-3 py-1 rounded-md m-5">
+                            <NavLink to="../teachnician" className="bg-red-600 flex items-center hover:bg-red-700 text-white px-3 py-1 rounded-md m-5">
                                 <FaUndoAlt /> Back
                             </NavLink>
                             <button

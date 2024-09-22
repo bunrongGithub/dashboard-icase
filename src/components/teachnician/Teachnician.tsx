@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaCog } from "react-icons/fa";
 import { LoadingSkeleton } from "../skeleton/TableLoading";
-import TeachnicianProps from "./definition"
+import TeachnicianProps from "./types/definition"
 const widths = [50, 150, 150];
 import AddBtn from "../utils/assets/atoms/AddBtn";
 import { utils } from "../utils";
+import { NavLink } from "react-router-dom";
 
 export const Teachnicain: React.FC = () => {
     const [teachnician, setTeachnician] = useState<TeachnicianProps[]>([]);
@@ -49,7 +50,7 @@ export const Teachnicain: React.FC = () => {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
                                     <button><utils.Trash/></button>
                                     &nbsp;&nbsp;
-                                    <button className="flex items-center"><utils.EditeIcon/></button>
+                                    <NavLink to={'../teachnician/update/'+ teach.techId} className="flex items-center"><utils.EditeIcon/></NavLink>
                                 </td>
                             </tr>
                         )))
@@ -69,7 +70,7 @@ const TableHeading:React.FC = () => {
         {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Teachnicain Name'},
         {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Skill'},
         {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Responsibility'},
-        {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Position'},
+        {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Permission'},
         {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Salary'},
         {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider',name:'Contact'},
         {cssClass:'px-6 py-3 text-left text-xs font-medium uppercase flex items-center tracking-wider',name:'Action', svg:<FaCog />},

@@ -4,7 +4,7 @@ import { PhoneModelType } from "../settings/phone_model/definition"
 import axios from "axios";
 import { FaTrash } from "react-icons/fa";
 import { ColorsProps } from "../settings/colors/definition";
-import TeachnicianProps from "../teachnician/definition";
+import TeachnicianProps from "../teachnician/types/definition";
 import StatusProps from "../settings/status/definition";
 import { PaymentStatusProps } from "../settings/payment_status/definition";
 interface TablePhoneItemBodyProps {
