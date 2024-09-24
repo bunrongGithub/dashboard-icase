@@ -12,7 +12,7 @@ const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
     amount, created_at, updated_at }) => {
     return (
         <>
-            <tr>
+            <tr className='hover:bg-slate-100'>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{phoneNumber}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{accept_date}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{duration}</td>

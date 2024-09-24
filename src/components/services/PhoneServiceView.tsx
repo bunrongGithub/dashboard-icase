@@ -108,16 +108,16 @@ const PhoneServiceView: React.FC = () => {
                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status Paid</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="bg-white">
                             {phoneItems.map((phone, index) => (
-                                <tr key={index}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.moName}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.colorName}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.password}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.problem}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.techName}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{phone.price}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <tr key={index} className="hover:bg-slate-100 transition-colors duration-300 border border-b-2 border-gray-100">
+                                    <td className="px-6  whitespace-nowrap text-sm text-gray-900">{phone.moName}</td>
+                                    <td className="px-6  whitespace-nowrap text-sm text-gray-900">{phone.colorName}</td>
+                                    <td className="px-6  whitespace-nowrap text-sm text-gray-900">{phone.password}</td>
+                                    <td className="px-6  whitespace-nowrap text-sm text-gray-900">{phone.problem}</td>
+                                    <td className="px-6  whitespace-nowrap text-sm text-gray-900">{phone.techName}</td>
+                                    <td className="px-6  whitespace-nowrap text-sm text-gray-900">{phone.price}</td>
+                                    <td className="px-6  whitespace-nowrap text-sm text-gray-900">
                                         <span className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${phone?.statusName?.toLocaleLowerCase() === 'done'
                                             ? 'bg-green-100 text-green-800'
                                             : phone.statusName?.toLowerCase() === 'pending'
@@ -130,8 +130,10 @@ const PhoneServiceView: React.FC = () => {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <span className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${phone?.psName?.toLocaleLowerCase() === 'done' ?
-                                            'bg-green-100 text-green-800' : phone?.psName?.toLocaleLowerCase() === "pending" || phone?.psName?.toLocaleLowerCase() === "non" ?
+                                        <span className={
+                                            `inline-flex px-2 text-xs font-semibold leading-5 rounded-full 
+                                            ${phone?.psName?.toLocaleLowerCase() === 'paid' ?
+                                            'bg-green-100 text-green-800' : phone?.psName?.toLocaleLowerCase() === "unpaid" ?
                                                 "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"
                                             }`}>
 

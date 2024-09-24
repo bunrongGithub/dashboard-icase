@@ -132,6 +132,11 @@ export const PhoneServiceCreate: React.FC = () => {
       setValidateItems(error?.response?.data?.message)
     }
   }
+  const handleDeleteRow =  (index: number) => {
+    if(index !== null) {
+      setItems(prev => prev.filter((_,idx) => idx !== index))
+    }
+  }
   return (
     <main className='flex items-center justify-center'>
       <article className='bg-white rounded-lg w-full p-6'>
@@ -311,7 +316,7 @@ export const PhoneServiceCreate: React.FC = () => {
                         </select>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <button className='flex items-center' type='button'>
+                        <button onClick={() => handleDeleteRow(index)} className='flex items-center' type='button'>
                           <FaTrash className='text-red-700' />
                         </button>
                       </td>
