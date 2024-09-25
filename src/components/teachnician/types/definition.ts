@@ -1,7 +1,7 @@
 export default interface TeachnicianProps{
     techId: number,
     techName:string,
-    roleId: number | null,
+    roleId: number ,
     roleName:string;
     salary: string|number|null,
     skills: string|null,
