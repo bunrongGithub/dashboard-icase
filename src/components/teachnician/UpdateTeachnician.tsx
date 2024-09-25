@@ -114,8 +114,9 @@ const UpdateTeachnician: React.FC = () => {
                 <div className='bg-white rounded-lg w-full'>
                     <form onSubmit={handleSubmit}>
                         {
-                            alertBox && <AlertBox setMessage={() => setMessage('')} message={message} type='success' />
-                            || errorBox && <AlertBox setMessage={() => setMessage('')} message={message} type='error' />}
+                            alertBox ? <AlertBox setMessage={() => setMessage('')} message={message} type='success' />
+                            : 
+                             errorBox ? <AlertBox setMessage={() => setMessage('')} message={message} type='error' /> :''}
                         <section className='grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 p-4 rounded-lg'>
                             <InputField
                                 label="Technician Name:"
