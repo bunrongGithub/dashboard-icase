@@ -13,6 +13,7 @@ const LoginForm: React.FC = () => {
             setIsLogin(true)
             await loginAction({ username, password });
         } catch (error: any) {
+            console.log(error)
             const statusCode = error.response.status;
             const errMessage = error.response.data.message;
             if(error.code === "ERR_NETWORK"){
