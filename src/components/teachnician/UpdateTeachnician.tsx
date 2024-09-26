@@ -142,7 +142,7 @@ const UpdateTeachnician: React.FC = () => {
                                 label="Salary:"
                                 name='salary'
                                 type="number"
-                                value={teachnician?.salary || 0}
+                                value={teachnician?.salary || ''}
                                 onChange={handleChange('salary')}
                             />
                             <InputField

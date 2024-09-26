@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { FaRegSave, FaUndoAlt } from 'react-icons/fa';
 import axios from 'axios';
 import Loading from '../utils/Loading';
-
+import AlertBox from '../utils/AlertBox';
 const CreateTeachnician: React.FC = () => {
     const [teachnician, setTeachnician] = useState<TeachiciainRequestCreate>({
         techName: '',
@@ -17,6 +17,8 @@ const CreateTeachnician: React.FC = () => {
     const [responseMessage, setResponseMessage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [messageSuccess,setMessageSuccess] = useState<string>('');
+    const [alertBox, setAlertBox] = useState<boolean>(false);
+    const [alertErrorBox,setAlertErrorBox] = useState<boolean>(false);
     const handleChange = (key: keyof TeachiciainRequestCreate) => (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setTeachnician(prev => ({ ...prev, [key]: value }));
@@ -36,13 +38,17 @@ const CreateTeachnician: React.FC = () => {
                 responsible: teachnician.responsible
             });
             if (response.status === 201) {
+                setAlertBox(true);
                 setTeachnician({techName:'',salary:0,skills:'',contact:'',responsible:''})
                 setMessageSuccess("Status 201: Create Success!")
             }
         } catch (error: any) {
             const status = error.response?.status || 'unknown';
             const field = error.response.data.message;
-            
+            if(status === 400){
+                setAlertBox(false);
+                setAlertErrorBox(true);
+            }
             setResponseMessage(`Status ${status}: ${field}`);
         } finally {
             setLoading(false); // Ensure loading stops regardless of success or failure
@@ -51,13 +57,10 @@ const CreateTeachnician: React.FC = () => {
 
     return (
         <section className='overflow-x-auto bg-white shadow-md rounded-lg p-4'>
+            {alertBox ? <AlertBox message={messageSuccess} setMessage={() => setMessageSuccess('')} type='success' /> : alertErrorBox ? <AlertBox message={responseMessage} setMessage={() => setResponseMessage('')} type='error'/> :''}
             <main className='flex items-center justify-center'>
                 <div className='bg-white rounded-lg w-full'>
                     <form onSubmit={handleSubmit}>
-                        <span className='text-red-700 leading-3 tracking-wider'>
-                            {responseMessage && responseMessage} 
-                        </span>
-                        {messageSuccess && <span className='text-blue-700'>{messageSuccess}</span>}
                         <section className='grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 p-4 rounded-lg'>
                             <InputField label="Technician Name:" value={teachnician.techName} onChange={handleChange('techName')} name='techName' type="text" placeholder="Enter name"/>
                             <InputField label="Skill:" value={teachnician.skills} type="text" onChange={handleChange('skills')} name='skills' />
