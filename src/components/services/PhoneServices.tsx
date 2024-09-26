@@ -6,9 +6,12 @@ import PhoneServiceItems from "./PhoneServiceItems";
 import { LoadingSkeleton } from "../skeleton/TableLoading"
 import AddBtn from "../utils/assets/atoms/AddBtn";
 import Pagination from "./Paginations";
+import AlertBox from "../utils/AlertBox";
+import Loading from "../utils/Loading";
 /** for skeleton effect */
 const widths = [50, 150, 150, 150, 150, 150, 150, 150, 150, 40];
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 export const PhoneServices: React.FC = () => {
     /** All data from api about phone services */
     const [data, setData] = useState<PhoneServicesProps[]>([]);
@@ -21,6 +24,7 @@ export const PhoneServices: React.FC = () => {
     const [endDate, setEndDate] = useState<string | [] | any>('');
     /** for skeleton loading if the network slow */
     const [loading, setIsLoading] = useState(true);
+    const [filterLoading,setFilterLoading] = useState<boolean>(false);
     /** pagination table */
     const [currentPage,setCurrentPage] = useState(1);
     const itemsPerpage = 10;
@@ -28,6 +32,8 @@ export const PhoneServices: React.FC = () => {
     const endIndex = startIndex + itemsPerpage;
     const paginatedData: PhoneServicesProps[] = filtering?.slice(startIndex , endIndex);
     const totalPages: number = Math.ceil((filtering?.length || 0) / itemsPerpage);
+
+    const [message,setMessage] = useState<string>('');
     const navigate = useNavigate();
     const handlePageChange = ( page: number) => {
         setCurrentPage(page)
@@ -54,7 +60,22 @@ export const PhoneServices: React.FC = () => {
         fetchDataFormService();
     }, []);
 
-    const handleFilter = () => {
+    const handleFilter = async () => {
+        setFilterLoading(true);
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/service?start=${startDate}&end=${endDate}`);
+            if(response.status === 200){
+                setData(response.data);
+                setFiltering(response.data)
+                setFilterLoading(false)
+            }
+        } catch (error: any) {
+            if(error.response.status === 400){
+                setMessage(error.response.data.message);
+                setFilterLoading(false);
+            }
+            console.log(error)
+        }
         // Your filtering logic here
     };
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -89,9 +110,10 @@ export const PhoneServices: React.FC = () => {
                     />
                     <button
                         onClick={handleFilter}
-                        className="bg-blue-700 flex items-center text-white px-3 py-1.5 rounded-lg"
+                        disabled={filterLoading}
+                        className={` ${filterLoading ? 'bg-blue-500':'bg-blue-700'}  flex items-center text-white px-3 py-1.5 rounded-lg`}
                     >
-                        <FaFilter className="mr-1" /> Filter
+                       { filterLoading ? (<><Loading/>&nbsp;</> ) : <FaFilter className="mr-1" />} Filter
                     </button>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -103,6 +125,7 @@ export const PhoneServices: React.FC = () => {
             </div>
             <div className="w-full">
                 <table className="w-full divide-y divide-gray-200">
+                    {message && <AlertBox message={message} setMessage={() => setMessage('')} type="warning" />}
                     <PhoneServiceTableHead />
                     {
                         loading ? (
