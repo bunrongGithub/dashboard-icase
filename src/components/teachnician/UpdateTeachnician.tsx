@@ -91,16 +91,15 @@ const UpdateTeachnician: React.FC = () => {
                 techName: teachnician.techName
             });
             if (response.status === 200) {
-                console.log(response);
-
-                setMessage(response.data.message);
-                setAlertBox(!alertBox)
+                const _mesage = response.data.message
+                setMessage(_mesage);
+                setAlertBox(true)
             }
         } catch (error: any) {
             const errStatus = error.response.status;
             const errMessage = error.response.data.message;
             if (errStatus === 400) {
-                setErrorBox(!errorBox);
+                setErrorBox(true);
                 setMessage(errMessage)
             }
             throw error;

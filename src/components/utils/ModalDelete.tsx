@@ -28,9 +28,10 @@ const ModalDelete:React.FC<ModalDeleteProps> = (
                 onClose();
             }
         } catch (error: any) {
-            console.log(error)
-            if(error.response.status === 403 || error.response.status === 500){
-                setErrorMsg(error?.response?.data?.message)
+            const statusCode = error.response.status as number;
+            const errMessage = error?.response?.data?.message as string;
+            if(statusCode === 403 || statusCode === 500 || statusCode === 409){
+                setErrorMsg(errMessage);
             } 
         }
     }

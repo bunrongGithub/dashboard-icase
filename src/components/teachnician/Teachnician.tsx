@@ -12,11 +12,16 @@ export const Teachnicain: React.FC = () => {
     const [teachnician, setTeachnician] = useState<TeachnicianProps[]>([]);
     const [error, setError] = useState<any>();
     const [loading, setLoading] = useState(true);
+    const [skeletonRow,setSkeletonRow] = useState<number | undefined>(undefined);
+    const [showDeleteBox,setShowDeleteBox] = useState<boolean>(false);
+    const [selectedId,setSelectedId] = useState<number | undefined>(undefined)
     useEffect(() => {
         const fetchTeachnician = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/teachnician`);
                 setTeachnician(response.data);
+                setSkeletonRow(response.data.length);
+                
             } catch (error) {
                 console.log(error);
                 setError(error);
@@ -26,6 +31,13 @@ export const Teachnicain: React.FC = () => {
         };
         fetchTeachnician();
     }, []);
+    const handleDelete = (id: number | undefined): void => {
+        if(id){
+            setTeachnician(prev => prev.filter((item) => item.techId !== id));
+            
+            setSelectedId(undefined)
+        }
+    }
     return (
         <section className="overflow-x-auto bg-white shadow-md rounded-lg">
             <div className="w-full p-2 flex items-center justify-end">
@@ -36,7 +48,7 @@ export const Teachnicain: React.FC = () => {
                 <tbody className="bg-white divide-y divide-gray-200">
                     {error && <tr><td colSpan={3} className="text-red-700 text-center">{error.message}</td></tr>}
                     {loading ? (
-                        <LoadingSkeleton number={10} widths={widths} />
+                        <LoadingSkeleton number={skeletonRow as number} widths={widths} />
                     ) : (
                         teachnician.map((teach,index) => (
                             <tr key={index} className="hover:bg-gray-100">
@@ -48,7 +60,7 @@ export const Teachnicain: React.FC = () => {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{teach.salary}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 ">{teach.contact}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
-                                    <button><utils.Trash/></button>
+                                    <button onClick={() => {setSelectedId(teach.techId),setShowDeleteBox(!showDeleteBox)}}><utils.Trash/></button>
                                     &nbsp;&nbsp;
                                     <NavLink to={'../teachnician/update/'+ teach.techId} className="flex items-center"><utils.EditeIcon/></NavLink>
                                 </td>
@@ -57,6 +69,15 @@ export const Teachnicain: React.FC = () => {
                     }
                 </tbody>
             </table>
+            {
+                showDeleteBox && <utils.ModalDelete 
+                isShowBox={showDeleteBox}
+                selectedId={selectedId}
+                onDelete={handleDelete}
+                onClose={() => setShowDeleteBox(!showDeleteBox)}
+                apiURL={`${import.meta.env.VITE_API_URL}/api/teachnician/${selectedId}`}
+                />
+            }
         </section>
     );
 };
