@@ -43,7 +43,7 @@ const menuItems: MenuItem[] = [
 
 const settingsItems: MenuItem[] = [
   { path: 'users-role', label: 'User Permission', icon: <FaUser /> },
-  { path: 'status', label: 'Status', icon: <FaClock /> },
+  { path: 'status', label: 'Service Status', icon: <FaClock /> },
   { path: 'payment-status', label: 'Payment Status', icon: <FaUserClock /> },
   { path: 'payment-method', label: 'Payment Method', icon: <FaMoneyBill /> },
   { path: 'colors', label: 'Phone Colors', icon: <FaPalette /> },
@@ -106,14 +106,14 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
               {isSettingsOpen ? <FaArrowCircleDown /> : <FaArrowCircleRight />}
             </button>
             <ul
-              className={`w-full mt-1 bg-[#0d1f36] transition-transform duration-700 overflow-hidden ${isSettingsOpen ? 'max-h-96 p-3' : 'max-h-0'
+              className={`w-full mt-1 bg-[#0d1f36] transition-transform duration-400 overflow-hidden ${isSettingsOpen ? 'max-h-96 p-3' : 'max-h-0'
                 }`}
             >
               {isSettingsOpen &&
                 settingsItems.map((item,index) => (
                   <li
                     key={index}
-                    className={` ${item.path === endUrl ? activeSetting :"bg-[#FFfFFF] "} hover:bg-[#e8e9e9] rounded-md m-1 transition-colors duration-500`}
+                    className={` ${item.path === endUrl ? activeSetting :"bg-[#FFfFFF] "} hover:bg-[#e8e9e9] rounded-md m-1 transition-colors duration-400`}
                   >
                     <NavLink
                       to={item.path}

@@ -80,7 +80,12 @@ export const PhoneServices: React.FC = () => {
     };
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         const liveSearch: string = e.target.value;
-        const filterLiveItems: PhoneServicesProps[] = data.filter(item => item.phoneNumber?.includes(liveSearch))
+        const filterLiveItems: PhoneServicesProps[] = data.filter(item => {
+            const phoneNumber = item?.phoneNumber || '';
+            const repId = "00"+item?.repId?.toString() || '';
+            return phoneNumber.includes(liveSearch) || repId.includes(liveSearch);
+        }
+        )
         setFiltering(filterLiveItems)
         setSearch(liveSearch)
     }
@@ -166,6 +171,7 @@ export const PhoneServices: React.FC = () => {
 };
 const PhoneServiceTableHead: React.FC = () => {
     const heads = [
+        { name: "Invoice", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
         { name: "Phone Number", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
         { name: "Received Date", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },
         { name: "Service Duration", css: "px-6 py-3 text-left text-xs font-semibold tracking-wider" },

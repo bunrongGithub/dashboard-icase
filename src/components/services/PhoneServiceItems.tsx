@@ -2,7 +2,8 @@ import React from 'react'
 import { utils } from '../utils'
 import { NavLink } from 'react-router-dom'
 import { PhoneServicesProps } from './definition'
-const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
+import { FaCog } from 'react-icons/fa'
+const PhoneServiceItems: React.FC<PhoneServicesProps> = ({  phoneNumber
     , accept_date,description,
     repId,
     duration,
@@ -38,6 +39,7 @@ const PhoneServiceItems: React.FC<PhoneServicesProps> = ({ phoneNumber
     return (
         <>
             <tr className='hover:bg-slate-100'>
+            <td className="px-6 py-4 whitespace-nowrap flex items-center text-sm font-medium text-gray-900"> <FaCog style={{ animation: 'spin 2s linear infinite' }} className='animate-spin mr-2 duration-1000 text-gray-400 text-[20px] '/> 00{repId}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{phoneNumber}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{acc_date&& acc_mm&&acc_yy? acc_date + '-' + acc_mm + '-' + acc_yy:''}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{duration}</td>

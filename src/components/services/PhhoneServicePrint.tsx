@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FaEye, FaPhone, FaPhoneSquareAlt } from "react-icons/fa";
+// import { FaPhoneSquareAlt } from "react-icons/fa";
 import { PhoneServicesItemProps, ViewPhoneServiceProps } from "./definition";
-import { NavLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { FaLocationDot } from "react-icons/fa6";
-
+// import { FaLocationDot } from "react-icons/fa6";
+// import Invoice from "./invoices/Invoice";
 export const PhoneServicePrint: React.FC = () => {
   const [itemDetails, setItemDetails] = useState<ViewPhoneServiceProps>();
   const [phoneItems, setPhoneItems] = useState<PhoneServicesItemProps[]>([]);
@@ -36,106 +36,88 @@ export const PhoneServicePrint: React.FC = () => {
   if (!isLoaded) {
     return <div>Loading...</div>; // Render a loading state or spinner
   }
-
   return (
-    <main className="flex items-center justify-start bg-gray-100">
-      <section className="bg-white rounded-lg shadow-lg w-[210mm] h-[297mm] border border-gray-300">
-        <div className="flex justify-between items-center mb-4 border-b border-gray-200 p-8 bg-gray-300">
-          <h3 className="text-3xl font-semibold text-stone-500">Icase Mobile Service Center</h3>
-          <img width={50} src="/logo.png" alt="...." />
-        </div>
-        <div className=" flex px-4 justify-between">
-          <div className="space-y-4">
-            <div className="font-medium text-gray-800">
-              <strong>Phone Number:</strong> {itemDetails?.repair?.phoneNumber}
-            </div>
-            <div className="font-medium text-gray-800">
-              <strong>Received Date:</strong> {itemDetails?.repair?.accept_date}
-            </div>
-            <div className="font-medium text-gray-800">
-              <strong>Service Duration:</strong> {itemDetails?.repair?.duration}
-            </div>
-            <div className="font-medium text-gray-800">
-              <strong>Warranty Period:</strong> {itemDetails?.repair?.warrantyperoid}
-            </div>
-            <div className="font-medium text-gray-800 flex">
-              <strong className="flex items-center"> <FaLocationDot/> Location:&nbsp;</strong> Lorem ipsum dolor sit amet.
-            </div>
-            <div className="font-medium text-gray-800 flex">
-              <strong className="flex items-center"> <FaPhoneSquareAlt/> Contact: &nbsp;</strong> 099778866 , 066784521
-            </div>
-          </div>
-          <div className="space-y-4">
-            <div className="font-medium text-gray-800">
-              <strong>Payment Status:</strong>
-              <span
-                className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${
-                  itemDetails?.repair?.psName === 'done'
-                    ? 'bg-green-100 text-green-800'
-                    : itemDetails?.repair?.psName?.toLowerCase() === 'pending'
-                    ? 'bg-red-100 text-red-800'
-                    : 'bg-yellow-100 text-yellow-800'
-                }`}
-              >
-                {itemDetails?.repair?.psName}
-              </span>
-            </div>
-            <div className="font-medium text-gray-800">
-              <strong>Payment Method:</strong> <span className="text-green-800">{itemDetails?.repair?.payment_method_name}</span>
-            </div>
-            <div className="font-medium text-gray-800">
-              <strong>Service Status:</strong>
-              <span
-                className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${
-                  itemDetails?.statusFixed === 'done'
-                    ? 'bg-green-100 text-green-800'
-                    : itemDetails?.statusFixed?.toLowerCase() === 'pending'
-                    ? 'bg-red-100 text-red-800'
-                    : 'bg-yellow-100 text-yellow-800'
-                }`}
-              >
-                {itemDetails?.statusFixed}
-              </span>
-            </div>
-            <div className="font-medium text-gray-800">
-              <strong>Total Price:</strong> <span className="text-green-800 font-medium">{itemDetails?.total} $</span>
-            </div>
+    <div className="max-w-3xl mx-auto bg-white p-10 mt-10 border rounded-lg shadow-md">
+      {/* Header */}
+      <div className="flex justify-between items-center border-b pb-4 mb-6">
+        {/* Logo and Title */}
+        <div className="flex items-center space-x-4">
+          <img width={50} src="/logo.png" alt="Company Logo" className="w-16 h-16" />
+          <div>
+            <h1 className="text-2xl font-semibold">ICASE MOBILE SERVICE CENTER</h1>
           </div>
         </div>
-        
-        <div className="">
-          <h4 className="text-xl font-semibold text-gray-900 px-4">
-            #Items
-          </h4>
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-300 text-stone-500">
-              <tr>
-                <th className="px-4 py-2 text-left text-sm font-medium uppercase">Model</th>
-                <th className="px-4 py-2 text-left text-sm font-medium uppercase">Color</th>
-                <th className="px-4 py-2 text-left text-sm font-medium uppercase">Password</th>
-                <th className="px-4 py-2 text-left text-sm font-medium uppercase">Problem</th>
-                <th className="px-4 py-2 text-left text-sm font-medium uppercase">Price</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {phoneItems.map((phone, index) => (
+        {/* Date and Invoice Number */}
+        <div className="text-right">
+          <h2 className="text-lg font-medium">Invoice: #00{itemDetails?.repairId}</h2>
+          <p className="text-sm text-gray-600">Date: {itemDetails?.repair?.accept_date}</p>
+        </div>
+      </div>
+
+      {/* Table Section */}
+      <div>
+        <table className="w-full text-left border-collapse mb-8">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="border py-2 px-4">MODEL</th>
+              <th className="border py-2 px-4">COLOR</th>
+              <th className="border py-2 px-4">PROBLEM</th>
+              <th className="border py-2 px-4">PRICE</th>
+              <th className="border py-2 px-4">STATUS</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              phoneItems?.map((item, index) => (
                 <tr key={index}>
-                  <td className="px-4 py-2 text-sm text-gray-900">{phone.moName}</td>
-                  <td className="px-4 py-2 text-sm text-gray-900">{phone.colorName}</td>
-                  <td className="px-4 py-2 text-sm text-gray-900">{phone.password}</td>
-                  <td className="px-4 py-2 text-sm text-gray-900">{phone.problem}</td>
-                  <td className="px-4 py-2 text-sm text-gray-900">{phone.price}</td>
+                  <td className="border py-2 px-4">{item?.moName ? item.moName : '--'}</td>
+                  <td className="border py-2 px-4">{item?.colorName ? item?.colorName : '--'}</td>
+                  <td className="border py-2 px-4">{item?.problem ? item.problem : '--'}</td>
+                  <td className="border py-2 px-4">{item?.price ? item.price : '--'}</td>
+                  <td className="border py-2 px-4">{item?.statusName ? item?.statusName : '--'}</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      {/* Total Amount Section */}
+      <div className="flex justify-end items-center text-lg font-medium mb-8">
+        <div className="w-1/3 text-right">
+          <p>Total Amount: ${itemDetails?.total ? itemDetails?.total : ""}</p>
         </div>
-        <div className="flex justify-end mt-6 border-t border-gray-200 pt-4">
-          <NavLink id="not-print" to="../services" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-            Back
-          </NavLink>
+      </div>
+
+      {/* Payment Information */}
+      <div className="grid grid-cols-2 gap-8 mb-8">
+        {/* Payment Information Section */}
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Payment Information:</h3>
+          <p>Cashier: ###</p>
+          <p>Bank: {itemDetails?.repair?.payment_method_name}</p>
+          <p>Cash: ###</p>
         </div>
-      </section>
-    </main>
+        {/* User Information Section */}
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Customer Information:</h3>
+          <p>Phone Number: {itemDetails?.repair?.phoneNumber}</p>
+          <p>
+            Password: {phoneItems?.map((item, index) => (
+              <span key={index} className="mr-2">
+                {item.password === undefined ? "" : item.password}
+              </span>
+            ))}
+          </p>
+          <p>Location: borey romchek, street pkaromdul</p>
+          <p>Contact: 086662929</p>
+        </div>
+      </div>
+
+      {/* Note Section */}
+      <div className="border-t pt-4 text-gray-600 text-sm">
+        <p>Note: The warranty is valid for {itemDetails?.repair?.warrantyperoid}.</p>
+      </div>
+    </div>
   );
 };
