@@ -10,9 +10,10 @@ interface ModalUpdateProps{
     modalTitle?: string;
 }
 const ModalUpdate:React.FC<ModalUpdateProps> = ({
-    onClose,selectedId,isShowBox,apiURL,onUpdate,modalHeading,modalTitle
+    onClose//,selectedId,isShowBox,apiURL,onUpdate//
+    ,modalHeading,modalTitle
 }) => {
-    const [value,setValue] = useState<string>('');
+    const [value,_setValue] = useState<string>('');
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
     }

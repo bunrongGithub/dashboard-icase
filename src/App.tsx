@@ -20,6 +20,7 @@ import _404 from "./components/utils/response-page/_404";
 import _500 from "./components/utils/response-page/_500"
 import CreateTeachnician from "./components/teachnician/CreateTeachnician"
 import UpdateTeachnician from "./components/teachnician/UpdateTeachnician"
+import { Selling } from "./components/selling/Selling"
 export const App: React.FC = () => {
   return (
     <Router>
@@ -44,6 +45,7 @@ export const App: React.FC = () => {
             <Route path="services/print/:id" element={<PhoneServicePrint/>}/>
             <Route path="_500" element={<_500/>}/>
             <Route path="*" element={<_404/>}/>
+            <Route path="selling" element ={<Selling/>}/>
           </Route>
           <Route path="*" element={<_404/>}/>
         </Routes>

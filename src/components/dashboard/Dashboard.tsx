@@ -18,6 +18,7 @@ apiClient.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem('token');
     if (token) {
+      console.log(config.headers)
       config.headers['x-access-token'] = token;
     }
     return config;

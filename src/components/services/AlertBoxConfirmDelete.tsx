@@ -4,12 +4,12 @@ interface AlertBoxConfirmDeleteProps {
     isShowBox: boolean;
     onClose: () => void;
     selectedId: number;
-    onDelete: (id: number | string | undefined) => void;
+    onDelete?: (id: number | string | undefined) => void;
 }
 const AlertBoxConfirmDelete: React.FC<AlertBoxConfirmDeleteProps> = ({
-    isShowBox, onClose, selectedId, onDelete
+    isShowBox, onClose, selectedId
 }) => {
-    const [errorMsg, setErrorMsg] = useState<string>("")
+    const [errorMsg, _setErrorMsg] = useState<string>("")
     const handleDelete = async (selectedId:number) => {
         console.log(selectedId);
     }
