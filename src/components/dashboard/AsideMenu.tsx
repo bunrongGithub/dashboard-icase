@@ -17,6 +17,7 @@ import {
   FaMobileScreenButton,
   FaScrewdriverWrench,
 } from 'react-icons/fa6';
+import UserProfile from './UserProfile';
 
 interface AsideMenuProps {
   role: string;
@@ -56,12 +57,12 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
   toggleSettings,
   isSettingsOpen,
   username,
-  role,
+
 }) => {
   const location = useLocation();
   const endUrl = location.pathname.split('/').pop() || ''; // Get last part of the URL
   console.log(endUrl);
-  
+
   const active = 'bg-[#01182b]';
   const activeSetting = 'bg-[#b7b7b7]';
   return (
@@ -70,20 +71,12 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
       className={`fixed top-0 left-0 w-60 bg-[#12263f] text-white min-h-screen flex flex-col transform ${sidebarOpen ? 'translate-x-0 p-2' : '-translate-x-60'
         } md:relative md:translate-x-0 transition-transform duration-300`}
     >
-      <div className="flex items-center justify-between p-4 border-b border-gray-700 md:hidden">
-        <h1 className="text-xl font-bold">Hello {username}</h1>
-        <button
-          className="text-white text-2xl"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-        >
-          &times;
-        </button>
-      </div>
-      <nav className="flex-1 mt-6">
+
+      <nav className="flex-1">
         <ul>
-          <h1 className="font-semibold m-auto p-4">
-            {role.toUpperCase()}{' '}
-            <span className="font-light"> {username.toUpperCase()}</span>
+          <h1 className="font-semibold m-auto p-1 flex justify-center items-center">
+            <span className=""> {username.toUpperCase()}</span>
+            <UserProfile />
           </h1>
           {menuItems.map((item, index) => (
             <li key={index} className={`${item.path === endUrl ? active : ""} hover:bg-[#01182b] transition-colors`}>
@@ -110,10 +103,10 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
                 }`}
             >
               {isSettingsOpen &&
-                settingsItems.map((item,index) => (
+                settingsItems.map((item, index) => (
                   <li
                     key={index}
-                    className={` ${item.path === endUrl ? activeSetting :"bg-[#FFfFFF] "} hover:bg-[#e8e9e9] rounded-md m-1 transition-colors duration-400`}
+                    className={` ${item.path === endUrl ? activeSetting : "bg-[#FFfFFF] "} hover:bg-[#e8e9e9] rounded-md m-1 transition-colors duration-400`}
                   >
                     <NavLink
                       to={item.path}

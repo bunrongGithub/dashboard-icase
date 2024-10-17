@@ -98,7 +98,7 @@ export default function Dashboard() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <main className="bg-gray-100 min-h-screen flex">
+    <main style={{width:'100% '}} className="bg-gray-100 min-h-screen flex ">
       {/* Sidebar */}
       <AsideMenu
         username={username}
@@ -110,7 +110,7 @@ export default function Dashboard() {
       />
 
       {/* Main Content */}
-      <div className="flex-1 bg-gray-200">
+      <div className="bg-gray-200 w-full">
         <DashboardHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <div className="p-6">
           <Outlet />
