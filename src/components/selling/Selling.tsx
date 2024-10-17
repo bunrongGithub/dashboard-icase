@@ -4,7 +4,7 @@ import SelectDateFilter from '../utils/assets/atoms/SelectDateFilter';
 import ButtonFilter from '../utils/assets/atoms/ButtonFilter';
 import AddBtn from '../utils/assets/atoms/AddBtn';
 import { FaFileAlt } from 'react-icons/fa';
-import { PhoneServiceTableHead } from '../services/PhoneServices';
+import TableHeading from './TableHeading';
 
 export const Selling: React.FC = () => {
     const [search, setSearch] = useState<string>('');
@@ -43,7 +43,19 @@ export const Selling: React.FC = () => {
             </div>
             <div className=' w-full '>
                 <table className="w-full divide-y divide-gray-200" >
-                    <PhoneServiceTableHead/>
+                    <TableHeading />
+                    <tbody className='bg-white divide-y divide-gray-200'>
+                        <tr className='hover:bg-slate-100 transition ease-out duration-300'>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">00001</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">5849845</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">date</td>
+                        </tr>
+                        <tr className='hover:bg-slate-100 transition ease-out duration-300'>
+                            <td className="px-6 py-4 whitespace-nowrap  text-sm font-medium text-gray-900">00001</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">5849845</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">date</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </main>
