@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AsideMenu from './AsideMenu';
 import DashboardHeader from './DashboardHeader';
+import SalesBox from '../inside/SalesBox';
 
 // Axios instance with interceptors for handling token and refresh logic
 const apiClient = axios.create({
@@ -98,7 +99,7 @@ export default function Dashboard() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <main style={{width:'100% '}} className="bg-gray-100 min-h-screen flex ">
+    <main style={{ width: '100% ' }} className="bg-gray-100 min-h-screen flex ">
       {/* Sidebar */}
       <AsideMenu
         username={username}
@@ -108,11 +109,18 @@ export default function Dashboard() {
         toggleSettings={toggleSettings}
         isSettingsOpen={isSettingsOpen}
       />
-
       {/* Main Content */}
       <div className="bg-gray-200 w-full">
         <DashboardHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <div className="p-6">
+        <div className='py-6 px-6 flex justify-between'>
+
+          <SalesBox />
+          <SalesBox />
+          <SalesBox />
+          <SalesBox />
+
+        </div>
+        <div className="px-6">
           <Outlet />
         </div>
       </div>

@@ -35,7 +35,7 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { path: '#', label: 'Dashboard', icon: <FaHome /> },
+  { path: '/dashboard', label: 'Dashboard', icon: <FaHome /> },
   { path: 'users', label: 'Users', icon: <FaUserCog /> },
   { path: 'services', label: 'Phone Services', icon: <FaMobileScreenButton /> },
   { path: 'selling', label: 'Selling', icon: <FaBoxArchive /> },
@@ -53,7 +53,6 @@ const settingsItems: MenuItem[] = [
 
 const AsideMenu: React.FC<AsideMenuProps> = ({
   sidebarOpen,
-  setSidebarOpen,
   toggleSettings,
   isSettingsOpen,
   username,
@@ -74,7 +73,7 @@ const AsideMenu: React.FC<AsideMenuProps> = ({
 
       <nav className="flex-1">
         <ul>
-          <h1 className="font-semibold m-auto p-1 flex justify-center items-center">
+          <h1 className="font-semibold m-auto p-1.5 flex justify-center items-center">
             <span className=""> {username.toUpperCase()}</span>
             <UserProfile />
           </h1>
