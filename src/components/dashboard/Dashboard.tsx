@@ -5,7 +5,9 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AsideMenu from './AsideMenu';
 import DashboardHeader from './DashboardHeader';
-import SalesBox from '../inside/SalesBox';
+import BoxReport from '../inside/BoxReport';
+import { FaAlgolia, FaMobileScreenButton } from 'react-icons/fa6';
+import { FaFileAlt, FaWallet } from 'react-icons/fa';
 
 // Axios instance with interceptors for handling token and refresh logic
 const apiClient = axios.create({
@@ -113,12 +115,10 @@ export default function Dashboard() {
       <div className="bg-gray-200 w-full">
         <DashboardHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <div className='py-6 px-6 flex justify-between'>
-
-          <SalesBox />
-          <SalesBox />
-          <SalesBox />
-          <SalesBox />
-
+          <BoxReport tittle='Phone Services' totleItem={120} percentes='up to 12%' svg={<FaMobileScreenButton/>} />
+          <BoxReport tittle='Salse' totleItem={65} percentes='up to 50%' svg={<FaWallet/>} />
+          <BoxReport tittle='Report' totleItem={20} percentes='up to 10%' svg={<FaFileAlt/>} />
+          <BoxReport tittle='Other' totleItem={145} percentes='up to 90%' svg={<FaAlgolia/>} />
         </div>
         <div className="px-6">
           <Outlet />
