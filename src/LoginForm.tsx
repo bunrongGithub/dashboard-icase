@@ -3,6 +3,7 @@ import { useAuth } from './AuthProvider';
 import Loading from './components/utils/Loading';
 import LoginWithGoogle from './LoginWithGoogle';
 import FormErrorMessage from './components/utils/FormErrorMessage';
+import Logo from './components/utils/assets/images/Logo';
 const LoginForm: React.FC = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -39,7 +40,7 @@ const LoginForm: React.FC = () => {
     return (
         <main className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-b from-[#0d1b2a] to-[#12263f]">
             <div className="w-full max-w-sm p-6 space-y-6 bg-[#1e3a5f] rounded-lg shadow-lg">
-                <h1 className="text-2xl font-semibold text-center text-white font-mono">ICASE MOBILE</h1>
+                <h1 className="flex items-center justify-center text-2xl font-semibold text-center text-white font-mono"><Logo/>&nbsp;ICASE MOBILE</h1>
                 {error && <FormErrorMessage message={error}/>}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input
