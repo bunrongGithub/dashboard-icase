@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, ReactNode, useContext, useState } from "react";
+import React, { createContext, ReactNode, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface AuthContextProps {
@@ -54,6 +54,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {
