@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaCog, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
 import { LoadingSkeleton } from "../skeleton/TableLoading";
+// import {appErrors, AppErrorsType} from "../utils/constant/AppErrors"
 const widths = [50, 150, 150,150,50];
 
 type UserType = {
@@ -13,15 +14,15 @@ type UserType = {
 }
 export const Users: React.FC = () => {
     const [users, setUsers] = useState<UserType[]>([]);
-    const [error, setError] = useState<any>();
+    const [error, _setError] = useState<any>();
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchStatus = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user`);
                 setUsers(response.data);
-            } catch (error) {
-                setError(error);
+            } catch (error: unknown) {
+                //appErrors(error.response.status!,error.response.data.message)
             } finally {
                 setLoading(false);
             }

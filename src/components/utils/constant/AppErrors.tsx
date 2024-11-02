@@ -1,10 +1,7 @@
-import React from "react";
-
-type AppErrorsType = {
+export type AppErrorsType = {
     statusCode: number;
     message: string;
 }
-const AppErrors:React.FC<AppErrorsType> = () => {
-    return <></>
+export const appErrors = ({statusCode,message}: AppErrorsType) => {
+    return {statusCode,message}
 }
-export default AppErrors;
